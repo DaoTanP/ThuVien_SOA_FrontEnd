@@ -1,9 +1,33 @@
 input.ng-invalid.ng-touched {
-    border-color: #dc3545 !important;
+  border-color: #dc3545 !important;
 }
+
+#form2Example3:hover {
+  cursor: pointer;
+}
+
 button[disabled] {
-    cursor: not-allowed;
+  cursor: not-allowed;
 }
+
 a {
-    cursor: pointer;
+  cursor: pointer;
+}
+
+.divider:after,
+.divider:before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #cccc;
+}
+
+.h-custom {
+  height: calc(100% - 73px);
+}
+
+@media (max-width: 450px) {
+  .h-custom {
+    height: 100%;
+  }
 }
