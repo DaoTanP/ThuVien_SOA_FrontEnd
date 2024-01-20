@@ -1,0 +1,23 @@
+.card-img {
+  object-fit: cover;
+  object-position: center;
+  background-position: center;
+  aspect-ratio: 18/9;
+  position: relative;
+}
+
+.card-shadow {
+  content: '';
+  position: absolute;
+  width: 80%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.75;
+  background: linear-gradient(270deg, rgba(11, 11, 11, 0) 0%, #0B0B0B 100%, #0B0B0B 100%);
+}
+
+.sub-img {
+  object-fit: cover;
+  object-position: center;
+  background-position: center;
+}
