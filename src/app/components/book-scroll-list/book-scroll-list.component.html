@@ -1,0 +1,21 @@
+<div class="container px-0 mb-5">
+    <div class="row mb-4">
+        <div class="col">
+            <a routerLink="{{href}}" class="mb-0 h4 text-decoration-none">{{title}} <span
+                    class="bi bi-chevron-right"></span></a>
+        </div>
+        <div class="col-2 ms-auto d-none d-md-flex justify-content-end gap-1">
+            <button class="btn bg-body-secondary rounded-circle py-1 px-2" (click)="slickModal.slickPrev()">
+                <span class="bi bi-caret-left-fill"></span>
+            </button>
+            <button class="btn bg-body-secondary rounded-circle py-1 px-2" (click)="slickModal.slickNext()">
+                <span class="bi bi-caret-right-fill"></span>
+            </button>
+        </div>
+    </div>
+    <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
+        <div ngxSlickItem *ngFor="let book of bookList || (bookListAsync | async); index as i" class="slide mx-1 pt-2">
+            <app-book [book]="book"></app-book>
+        </div>
+    </ngx-slick-carousel>
+</div>

@@ -1,0 +1,53 @@
+.container {
+    --avatar-height: 20rem;
+}
+
+.profile-banner {
+    max-height: var(--avatar-height);
+    object-fit: cover;
+    object-position: center;
+}
+
+.profile-main {
+    margin-top: calc(var(--avatar-height)/-3);
+}
+
+.avatar {
+    height: calc(var(--avatar-height)/1.5);
+    width: calc(var(--avatar-height)/1.5);
+    object-fit: cover;
+    object-position: center;
+    aspect-ratio: 1/1;
+}
+
+.nav-tabs {
+    --bs-border-width: 2px;
+    /* --bs-border-color: transparent; */
+    --bs-nav-tabs-border-width: var(--bs-border-width);
+    --bs-nav-tabs-border-color: var(--bs-border-color);
+    --bs-nav-tabs-border-radius: var(--bs-border-radius);
+    --bs-nav-tabs-link-hover-border-color: var(--bs-body-bg) var(--bs-body-bg) var(--bs-secondary-color);
+    --bs-nav-tabs-link-active-color: var(--bs-nav-link-color);
+    --bs-nav-tabs-link-active-bg: var(--bs-body-bg);
+    --bs-nav-tabs-link-active-border-color: var(--bs-body-bg) var(--bs-body-bg) var(--bs-nav-link-color);
+    border-bottom: var(--bs-nav-tabs-border-width) solid var(--bs-nav-tabs-border-color);
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+}
+
+.nav-tabs>* {
+    white-space: nowrap;
+}
+
+.nav-tabs .nav-link {
+    color: var(--bs-secondary-color);
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+    border-width: 0 0 var(--bs-nav-tabs-border-width);
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: var(--bs-nav-tabs-link-active-color);
+    background-color: var(--bs-nav-tabs-link-active-bg);
+    border-color: var(--bs-nav-tabs-link-active-border-color);
+}

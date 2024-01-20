@@ -1,0 +1,9 @@
+input.ng-invalid.ng-touched {
+    border-color: #dc3545 !important;
+}
+button[disabled] {
+    cursor: not-allowed;
+}
+a {
+    cursor: pointer;
+}

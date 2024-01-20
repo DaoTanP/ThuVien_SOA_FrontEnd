@@ -1,0 +1,43 @@
+<ng-container *ngTemplateOutlet="isCardHorizontal? horizontalCard : verticalCard">
+</ng-container>
+
+<ng-template #horizontalCard>
+    <div class="d-grid" id="items-container" [style.grid-template-rows]="'repeat(auto, 5rem)'"
+        [style.grid-template-columns]="'repeat(auto-fill, minmax(min(calc(var(--card-width) * 2), 100%), 1fr))'">
+        <app-book [isHorizontal]="isCardHorizontal" *ngFor="let item of itemsToDisplay" [book]="item"
+            class="col"></app-book>
+    </div>
+</ng-template>
+<ng-template #verticalCard>
+    <!-- repeat('+column+', 1fr) -->
+    <div class="d-grid" id="items-container"
+        [style.grid-template-columns]="'repeat(auto-fill, minmax(min(var(--card-width), 100%), 1fr))'">
+        <app-book [isHorizontal]="isCardHorizontal" *ngFor="let item of itemsToDisplay" [book]="item"
+            class="col"></app-book>
+    </div>
+</ng-template>
+
+<nav class="mt-4" *ngIf="total > 1" aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        <li class="page-item" [class.disabled]="current === 1">
+            <button class="page-link" href="#" aria-label="Previous" [attr.aria-disabled]="current === 1"
+                [disabled]="current === 1" (click)="onPrevious()">
+                <span class="bi bi-arrow-left-short" aria-hidden="true"></span>
+            </button>
+        </li>
+        <li class="page-item" *ngFor="let page of pages;">
+            <a *ngIf="page != -1" class="page-link" [attr.aria-current]="page === current ? 'page' : null"
+                [attr.aria-label]="
+          page === current ? 'Current Page, Page ' + page : 'Go to Page ' + page
+        " [class.active]="page === current" tabindex="0" (click)="onGoTo(page)" (keyup.enter)="onGoTo(page)">
+                {{ page }}</a>
+            <div *ngIf="page == -1" class="w-100 h-100 mx-2 d-flex align-items-end"><span>...</span></div>
+        </li>
+        <li class="page-item" [class.disabled]="current === total">
+            <button class="page-link" href="#" aria-label="Next" [attr.aria-disabled]="current === total"
+                [disabled]="current === total" (click)="onNext()">
+                <span class="bi bi-arrow-right-short" aria-hidden="true"></span>
+            </button>
+        </li>
+    </ul>
+</nav>

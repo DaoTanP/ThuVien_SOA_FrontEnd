@@ -1,0 +1,19 @@
+button:focus {
+    outline: 2px solid gray;
+}
+
+a.h4:hover {
+    border-bottom: 1.5px solid currentColor;
+    cursor: pointer;
+}
+
+a.h4 .bi {
+    transition: all 0.25s ease;
+}
+a.h4:hover .bi {
+    margin-left: 0.5rem;
+}
+
+.slick-track {
+    margin-left: 0;
+}

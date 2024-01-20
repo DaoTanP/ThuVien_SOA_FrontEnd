@@ -1,0 +1,109 @@
+.book-cover-container {
+    /* overflow: hidden; */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    transition: .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background-color: var(--bs-body-bg);
+}
+
+:is(.card:has(.stretched-link:hover), .card.link:hover) .book-cover-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: inherit;
+}
+:is(.card:has(.stretched-link:hover), .card.link:hover) .book-cover-container {
+    transform: scale(1.025);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+.card img {
+    /* rendered by GPU */
+    will-change: transform;
+    /* height: 100%; */
+    width: 100%;
+    object-fit: cover;
+    object-position: center center;
+    transition: .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    aspect-ratio: 2/3;
+    @supports not (aspect-ratio: 2 / 3) {
+        &::before {
+            float: left;
+            padding-top: 150%;
+            content: "";
+        }
+
+        &::after {
+            display: block;
+            content: "";
+            clear: both;
+        }
+    }
+}
+.card :has(img) {
+    position: relative;
+    /* overflow: hidden; */
+}
+:is(.card:has(.stretched-link), .card.link) {
+    /* overflow: hidden; */
+    cursor: pointer;
+}
+.card.d-grid {
+    grid-template-columns: 1fr 2fr;
+}
+@media (min-width: 425px) {
+    .card.d-grid {
+        grid-template-columns: 1fr 3fr;
+    }
+}
+/* 
+@media (min-width: 576px) {
+    .card.d-grid {
+        grid-template-columns: 1fr 4fr;
+    }
+}
+@media (min-width: 768px) {
+    .card.d-grid {
+        grid-template-columns: 1fr 4fr;
+    }
+}
+@media (min-width: 992px) {
+    .card.d-grid {
+        grid-template-columns: 1fr 5fr;
+    }
+}
+@media (min-width: 1200px) {
+    .card.d-grid {
+        grid-template-columns: 1fr 6fr;
+    }
+}
+@media (min-width: 1400px) {
+    #items-container {
+        --card-width: 10rem;
+    }
+} */
+
+.card.horizontal:hover {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-secondary-bg-rgb), var(--bs-bg-opacity)) !important;
+    border-radius: 0.5rem !important;
+}
+
+@keyframes scale {
+    0% {
+        transform: scale(1, 1);
+    }
+    10% {
+        transform: scale(1.1, 0.9);
+        box-shadow: rgba(0, 0, 0, 0.3) 1px 2px 3px 1px;
+    }
+    30% {
+        transform: scale(1.2, 1.1);
+        box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 3px 1px;
+    }
+    50%, 100% {
+        transform: scale(1.2, 1.2);
+    }
+}

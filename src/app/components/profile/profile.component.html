@@ -1,0 +1,265 @@
+<div *ngIf="waiting" class="position-fixed z-3 bg-body-secondary bg-opacity-50 w-100" style="height: 100%;">
+  <div class="d-flex justify-content-center align-items-center w-100" style="height: 100%;">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<div id="alert-container" class="container"> <!--class="position-fixed z-3 w-100 px-5" style="top: 4rem;" -->
+  <style>
+    .alert-container>* {
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
+  </style>
+</div>
+
+<div class="container mb-5">
+  <div class="row">
+    <div class="col-12 col-md-auto me-lg-3">
+      <div class="position-relative">
+        <img src="{{user.avatarImage}}" alt="avatar"
+          class="m-auto mb-2 m-lg-0 d-block rounded-circle img-fluid border border-5 border-light-subtle shadow-sm avatar">
+        <label for="avatarUpload"
+          class="position-absolute bottom-0 start-50 btn bg-body-secondary rounded-circle py-2 border-2 border-secondary-subtle focus-ring focus-ring-primary"
+          style="transform: translateX(75%);">
+          <span class="bi bi-camera-fill"></span>
+          <input id="avatarUpload" type="file" class="visually-hidden" (change)="uploadAvatar($event)">
+        </label>
+      </div>
+      <p class="h4 text-center mb-2">{{(user.lastName || '') + " " + user.firstName}}</p>
+      <button class="btn btn-primary mb-2 py-1 d-block w-100" data-bs-toggle="modal" data-bs-target="#infoModal">Chỉnh
+        sửa thông tin</button>
+      <button class="btn btn-outline-danger py-1 mb-2 d-block w-100" data-bs-toggle="modal"
+        data-bs-target="#deleteModal">Xóa tài khoản</button>
+
+    </div>
+    <div class="col">
+      <ul class="nav nav-tabs" id="profileTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button"
+            role="tab" aria-controls="info" aria-selected="true">Thông tin</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-panel" type="button"
+            role="tab" aria-controls="password-panel" aria-selected="false">Đổi mật khẩu</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="libraryCard-tab" data-bs-toggle="tab" data-bs-target="#libraryCard-panel"
+            type="button" role="tab" aria-controls="libraryCard" aria-selected="false">Thẻ thư viện</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button"
+            role="tab" aria-controls="history" aria-selected="false">Lịch sử mượn</button>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane py-3 active position-relative" id="info" role="tabpanel" aria-labelledby="info-tab">
+          <div class="d-flex flex-column gap-3">
+            <div class="row justify-content-center align-items-center g-2">
+              <div class="col-3">Số thẻ thư viện</div>
+              <div class="col">{{user.libraryCard?.id || 'chưa liên kết'}}</div>
+            </div>
+            <div class="row justify-content-center align-items-center g-2">
+              <div class="col-3">Họ đệm</div>
+              <div class="col">{{user.lastName}}</div>
+            </div>
+            <div class="row justify-content-center align-items-center g-2">
+              <div class="col-3">Tên</div>
+              <div class="col">{{user.firstName}}</div>
+            </div>
+            <div class="row justify-content-center align-items-center g-2">
+              <div class="col-3">Giới tính</div>
+              <div class="col">{{user.gender !== null ? (user.gender ? 'Nam' : 'Nữ') : ''}}</div>
+            </div>
+            <div class="row justify-content-center align-items-center g-2">
+              <div class="col-3">Ngày sinh</div>
+              <div class="col">{{user.dateOfBirth}}</div>
+            </div>
+            <div class="row justify-content-center align-items-center g-2">
+              <div class="col-3">Số điện thoại</div>
+              <div class="col">{{user.phoneNumber}}</div>
+            </div>
+            <div class="row justify-content-center align-items-center g-2">
+              <div class="col-3">Email</div>
+              <div class="col">{{user.email}}</div>
+            </div>
+            <div class="row justify-content-center align-items-center g-2">
+              <div class="col-3">Địa chỉ</div>
+              <div class="col">{{user.address}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane py-3" id="password-panel" role="tabpanel" aria-labelledby="password-tab">
+          <div class="row mb-3">
+            <div class="col-3"><label for="passwordOld" class="form-label ">Nhập mật khẩu cũ</label></div>
+            <div class="col"><input type="password" [ngModel] #passwordOld id="passwordOld" class="form-control">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-3"><label for="passwordNew2" class="form-label">Nhập mật khẩu mới</label></div>
+            <div class="col"><input type="password" [ngModel] #passwordNew2 id="passwordNew2" class="form-control">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-3"><label for="passwordNew" class="form-label">Nhập lại mật khẩu mới</label></div>
+            <div class="col"><input type="password" [ngModel] #passwordNew id="passwordNew" class="form-control">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3"></div>
+            <div class="col">
+              <p>Mật khẩu phải từ ít nhất 8 kí tự trở lên.</p>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-3"></div>
+            <div class="col">
+              <button class="btn btn-primary"
+                [disabled]="!passwordNew.value || passwordNew.value !== passwordNew2.value"
+                (click)="changePassword(passwordOld.value, passwordNew.value)">Thay đổi mật
+                khẩu</button>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane py-3" id="libraryCard-panel" role="tabpanel" aria-labelledby="libraryCard-tab">
+          <div class="row mb-3">
+            <div class="col-3"><label for="cardNumber" class="form-label ">Nhập số thẻ</label></div>
+            <div class="col"><input type="text" [ngModel] #cardNumber id="cardNumber" class="form-control">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-3"><label for="cardPassword" class="form-label">Nhập mật khẩu thẻ</label></div>
+            <div class="col"><input type="password" [ngModel] #cardPassword id="cardPassword" class="form-control">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-3"></div>
+            <div class="col">
+              <button class="btn btn-primary" [disabled]="!cardNumber.value || !cardPassword.value"
+                (click)="linkLibraryCard(cardNumber.value, cardPassword.value)">Liên kết thẻ thư viện</button>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane py-3" id="history" role="tabpanel" aria-labelledby="history-tab">Lorem ipsum dolor sit
+          amet
+          consectetur, adipisicing elit. In quod velit iste omnis debitis error, magni neque atque porro quidem?</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="infoModalLabel">Chỉnh sửa thông tin</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="editInfoForm" (ngSubmit)="submitChange()" id="editInfoForm">
+          <div class="row">
+            <div class="col mb-3 w-100">
+              <label for="lastName" class="form-label">Họ đệm</label>
+              <input type="text" id="lastName" class="form-control" formControlName="lastName"
+                aria-describedby="helpLastNameId">
+            </div>
+            <div class="col mb-3 w-100">
+              <label for="firstName" class="form-label">Tên</label>
+              <input type="text" id="firstName" class="form-control"
+                [class.is-invalid]="firstName.invalid && (firstName.dirty || firstName.touched)"
+                formControlName="firstName" aria-describedby="helpFirstNameId">
+              <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="text-danger">
+                <div *ngIf="firstName.errors?.['required']">
+                  <small id="helpFirstNameId">Tên không được bỏ trống</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-3 w-100">
+            <div class="form-label">Giới tính</div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" id="rad-male" formControlName="gender" [value]="true">
+              <label class="form-check-label" for="rad-male">
+                Nam
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" id="rad-female" formControlName="gender" [value]="false">
+              <label class="form-check-label" for="rad-female">
+                Nữ
+              </label>
+            </div>
+          </div>
+          <div class="col mb-3 w-100">
+            <label for="dob" class="form-label">Ngày sinh</label>
+            <input type="date" id="dob" class="form-control" formControlName="dateOfBirth" aria-describedby="helpDobId">
+          </div>
+          <div class="col mb-3 w-100">
+            <label for="phoneNumber" class="form-label">Số điện thoại</label>
+            <input type="text" id="phoneNumber" class="form-control" formControlName="phoneNumber"
+              aria-describedby="helpPhoneNumberId">
+          </div>
+          <div class="col mb-3 w-100">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" class="form-control" formControlName="email" aria-describedby="helpEmailId">
+          </div>
+          <div class="col mb-3 w-100">
+            <label for="address" class="form-label">Địa chỉ</label>
+            <input type="text" id="address" class="form-control" formControlName="address"
+              aria-describedby="helpAddressId">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Hủy</button>
+        <button type="submit" form="editInfoForm" class="btn btn-primary" data-bs-toggle="modal"
+          data-bs-target="#infoModal2">Lưu thay đổi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="infoModal2" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="infoModalLabel">Xác nhận thay đổi</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="col mb-3 w-100">
+          <label for="passwordEdit" class="form-label">Nhập mật khẩu để xác thực</label>
+          <input type="password" [(ngModel)]="userToEdit.password" id="passwordEdit" class="form-control"
+            aria-describedby="helpPasswordId">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Hủy</button>
+        <button class="btn btn-primary" (click)="change()" data-bs-dismiss="modal">Xác nhận</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Xác nhận xóa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="col mb-3 w-100">
+          <label for="passwordDelete" class="form-label">Nhập mật khẩu để xác thực</label>
+          <input type="password" [(ngModel)]="userToEdit.password" id="passwordDelete" class="form-control"
+            aria-describedby="helpPasswordId">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button class="btn btn-danger" (click)="delete()" data-bs-dismiss="modal">Xác nhận</button>
+      </div>
+    </div>
+  </div>
+</div>

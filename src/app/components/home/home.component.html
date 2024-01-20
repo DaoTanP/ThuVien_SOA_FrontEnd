@@ -1,0 +1,73 @@
+<div class="container-fluid bg-body-secondary p-2 px-sm-4 py-4 px-lg-5 mb-5 position-relative"
+    style="margin-top: -3.5rem; padding-top: 5rem !important; padding-bottom: 5rem !important;">
+
+    <div class="container position-relative z-3">
+        <div class="row px-0">
+            <div class="col-lg-6 col d-flex flex-column justify-content-center">
+                <h1 class="mb-4 text-center text-lg-start display-5 fw-medium fst-normal">Hôm nay bạn muốn đọc sách gì?
+                </h1>
+                <h5 class="fw-normal d-none d-md-block text-md-center text-lg-start mb-3">Kho sách phong phú, đa dạng
+                    thể loại cho bạn tha hồ lựa chọn</h5>
+                <div class="input-group shadow-sm rounded-3 border-2 border border-dark-subtle mb-3">
+                    <input type="text" class="form-control" #searchBar="ngModel" [(ngModel)]="searchInput"
+                        placeholder="Nhập nội dung tìm kiếm" aria-label="Tìm kiếm" aria-describedby="search-button">
+                    <button class="btn btn-primary" id="search-button" (click)="search()"><span
+                            class="bi bi-search"></span></button>
+                </div>
+                <p class="text-center text-lg-start">hoặc</p>
+                <a class="btn btn-primary me-lg-auto ms-lg-0 mx-sm-auto px-3 py-2 fw-bold rounded-1"
+                    routerLink="/search">Khám phá thư
+                    viện</a>
+            </div>
+            <div class="col-5 ms-auto d-none d-lg-block">
+                <div class="img-fluid" class="overflow-hidden"
+                    style="object-fit: cover; object-position: center; max-height: 540px;">
+                    <img src="../../../assets/trajectory-education.svg" alt="Image" class="img-fluid"
+                        style="transform: scale(1.5)" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="banner-background" class="position-absolute h-100 w-100 top-0 start-0">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+            xmlns:svgjs="http://svgjs.dev/svgjs" viewBox="0 0 800 800"
+            style="max-width: 15rem; height: auto; bottom: 5%; left: 17%" class="position-absolute">
+            <g stroke-width="11" stroke="hsl(205, 69%, 50%)" fill="none" stroke-linecap="square"
+                stroke-dasharray="16.5 0" transform="rotate(140, 400, 400)">
+                <path
+                    d="M250.5 250.85277140140533Q390.5 239.85277140140533 400 400.35277140140533Q412.5 524.8527714014053 549.5 549.8527714014053 "
+                    marker-end="url(#SvgjsMarker2117)"></path>
+            </g>
+            <defs>
+                <marker markerWidth="6.5" markerHeight="6.5" refX="3.25" refY="3.25" viewBox="0 0 6.5 6.5" orient="auto"
+                    id="SvgjsMarker2117">
+                    <polygon points="0,6.5 0,0 6.5,3.25" fill="hsl(205, 69%, 50%)"></polygon>
+                </marker>
+            </defs>
+        </svg>
+
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+            xmlns:svgjs="http://svgjs.dev/svgjs" viewBox="0 0 800 400"
+            style="max-width: 15rem; height: auto; top: 27%; right: 50%" class="position-absolute">
+            <path
+                d="M171.76119995117188,116.29291534423828C162.4453781636556,128.07799059549967,92.54447998046875,192.52694923400878,112.29850769042969,191.5167999267578C132.05253540039064,190.50665061950684,279.1068565368652,99.85590154012044,297.8507385253906,109.84515380859375C316.594620513916,119.83440607706706,197.4829879760742,256.17589551289876,231.9403076171875,255.27798461914062C266.39762725830076,254.3800737253825,473.00778951009113,127.79619539896647,517.7910766601562,104.11380767822266"
+                fill="none" stroke-width="25" stroke="hsl(205, 69%, 50%)" stroke-linecap="butt" stroke-dasharray="41 34"
+                transform="matrix(1,0,0,1,86.70503234863281,20.30187225341797)"></path>
+            <defs>
+                <linearGradient id="SvgjsLinearGradient1001">
+                    <stop stop-color="hsl(37, 99%, 67%)" offset="0"></stop>
+                    <stop stop-color="hsl(316, 73%, 52%)" offset="1"></stop>
+                </linearGradient>
+            </defs>
+        </svg>
+    </div>
+
+</div>
+
+<main class="container">
+
+    <app-book-scroll-list [dataAsync]="topBorrowList" title="Top sách mượn nhiều"></app-book-scroll-list>
+    <app-book-scroll-list [dataAsync]="randomRecommendationList" title="Khám phá"></app-book-scroll-list>
+
+</main>

@@ -1,0 +1,27 @@
+a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+input[type="search"] {
+    color: #fff;
+    background-color: var(--bs-dark);
+    border-color: var(--bs-gray);
+}
+
+input[type="search"]:focus {
+    color: #fff;
+    background-color: var(--bs-dark);
+    border-color: #fff;
+    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, .25);
+}
+
+@media (max-width: 576px) {
+    .w-sm-100 {
+        width: 100%;
+    }
+}
+
+.navbar {
+    transition: all .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}

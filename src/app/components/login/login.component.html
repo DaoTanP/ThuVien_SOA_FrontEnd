@@ -1,0 +1,68 @@
+<div *ngIf="waiting" class="position-fixed z-3 bg-body-secondary bg-opacity-50 w-100" style="height: 100%;">
+    <div class="d-flex justify-content-center align-items-center w-100" style="height: 100%;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</div>
+
+<div class="d-grid col-11 col-sm-6 col-md-5 col-lg-4 col-xxl-3 mx-auto">
+    <div class="card shadow my-4 bg-body-tertiary">
+        <div class="card-body p-lg-4">
+            <h4 class="card-title mb-4">Đăng nhập</h4>
+            <div id="form-wrapper" class="mb-3"></div>
+            <form [formGroup]="loginForm" (ngSubmit)="login()" id="loginForm" class="d-flex flex-column">
+                <div class="mb-4 w-100">
+                    <input type="text" class="form-control"
+                        [class.is-invalid]="username.invalid && (username.dirty || username.touched)"
+                        formControlName="username" aria-describedby="helpUsernameId" placeholder="Tên đăng nhập">
+                    <div *ngIf="username.invalid && (username.dirty || username.touched)" class="text-danger">
+                        <div *ngIf="username.errors?.['required']">
+                            <small id="helpUsernameId">Tên đăng nhập không được bỏ trống</small>
+                        </div>
+                        <div *ngIf="username.errors?.['minlength']">
+                            <small id="helpUsernameId">Tên đăng nhập phải chứa ít nhất {{
+                                username.errors?.['minlength'].requiredLength }} kí tự</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-2 w-100">
+                    <input type="password" class="form-control"
+                        [class.is-invalid]="password.invalid && (password.dirty || password.touched)"
+                        formControlName="password" aria-describedby="helpPasswordId" placeholder="Mật khẩu">
+                    <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
+                        <div *ngIf="password.errors?.['required']">
+                            <small id="helpPasswordId">Mật khẩu không được bỏ trống</small>
+                        </div>
+                        <div *ngIf="password.errors?.['minlength']">
+                            <small id="helpPasswordId">Mật khẩu phải từ 8 kí tự trở lên</small>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="mb-3"><a class="text-decoration-none">Quên mật khẩu?</a></div>
+            <button type="submit" class="btn btn-primary d-block w-100 rounded-pill py-2" form="loginForm"
+                [disabled]="!loginForm.valid">Đăng
+                nhập</button>
+            <div class="d-flex gap-2 my-3">
+                <div class="flex-grow-1 border-2 border-top border-gray" style="margin-top: 0.75rem;"></div>
+                <p class="text-center mb-0">hoặc</p>
+                <div class="flex-grow-1 border-2 border-top border-gray" style="margin-top: 0.75rem;"></div>
+            </div>
+            <div class="d-flex flex-column gap-3 justify-content-center">
+                <button class="btn bg-body-secondary focus-ring focus-ring-primary rounded-pill py-2 d-flex">
+                    <i class="bi bi-google"></i>
+                    <span class="flex-grow-1">Đăng nhập bằng Google</span>
+                </button>
+                <button class="btn bg-body-secondary focus-ring focus-ring-primary rounded-pill py-2 d-flex">
+                    <i class="bi bi-facebook"></i>
+                    <span class="flex-grow-1">Đăng nhập bằng Facebook</span>
+                </button>
+            </div>
+            <p class="text-center mt-4 mb-0">
+                Chưa có tài khoản?
+                <a routerLink="/register" class="text-decoration-none">Đăng ký</a>
+            </p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,86 @@
+<div *ngIf="waiting" class="position-fixed z-3 bg-body-secondary bg-opacity-50 w-100" style="height: 100%;">
+  <div class="d-flex justify-content-center align-items-center w-100" style="height: 100%;">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<div class="d-grid col-11 col-sm-6 col-md-5 col-lg-4 col-xxl-3 mx-auto z-1">
+  <div class="card shadow my-4 bg-body-tertiary">
+    <div class="card-body p-lg-4">
+      <h4 class="card-title mb-4">Đăng ký</h4>
+      <div class="d-flex flex-column gap-3 justify-content-center" id="form-wrapper">
+        <button class="btn bg-body-secondary focus-ring focus-ring-primary rounded-pill py-2 d-flex">
+          <i class="bi bi-google"></i>
+          <span class="flex-grow-1">Đăng ký bằng Google</span>
+        </button>
+        <button class="btn bg-body-secondary focus-ring focus-ring-primary rounded-pill py-2 d-flex">
+          <i class="bi bi-facebook"></i>
+          <span class="flex-grow-1">Đăng ký bằng Facebook</span>
+        </button>
+      </div>
+      <div class="d-flex gap-2 my-4">
+        <div class="flex-grow-1 border-2 border-top border-gray" style="margin-top: 0.75rem;"></div>
+        <p class="text-center mb-0">hoặc</p>
+        <div class="flex-grow-1 border-2 border-top border-gray" style="margin-top: 0.75rem;"></div>
+      </div>
+      <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <div class="form-group">
+          <input type="text" class="form-control"
+            [class.is-invalid]="displayName.invalid && (displayName.dirty || displayName.touched)" id="displayName"
+            formControlName="displayName" placeholder="Tên hiển thị">
+          <small *ngIf="displayName.invalid && (displayName.dirty || displayName.touched)" class="text-danger">
+            <div *ngIf="displayName.errors?.['required']">Tên hiển thị không được để trống</div>
+            <div *ngIf="displayName.errors?.['minlength']">Tên hiển thị phải chứa ít nhất {{
+              displayName.errors?.['minlength'].requiredLength }} kí tự</div>
+          </small>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control"
+            [class.is-invalid]="username.invalid && (username.dirty || username.touched)" id="username"
+            formControlName="username" placeholder="Tên đăng nhập">
+          <small *ngIf="username.invalid && (username.dirty || username.touched)" class="text-danger">
+            <div *ngIf="username.errors?.['exists']">Tên đăng nhập đã tồn tại</div>
+            <div *ngIf="username.errors?.['required']">Tên đăng nhập không được để trống</div>
+            <div *ngIf="username.errors?.['minlength']">Tên đăng nhập phải chứa ít nhất {{
+              username.errors?.['minlength'].requiredLength }} kí tự</div>
+          </small>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control"
+            [class.is-invalid]="password.invalid && (password.dirty || password.touched)" id="password"
+            formControlName="password" placeholder="Mật khẩu">
+          <small *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
+            <div *ngIf="password.errors?.['required']">Mật khẩu không được để trống</div>
+            <div *ngIf="password.errors?.['minlength']">Mật khẩu phải chứa ít nhất {{
+              password.errors?.['minlength'].requiredLength }} kí tự</div>
+          </small>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control"
+            [class.is-invalid]="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched) || (password.value !== confirmPassword.value && (confirmPassword.dirty || confirmPassword.touched) && (password.dirty || password.touched))"
+            id="confirmPassword" formControlName="confirmPassword" placeholder="Nhập lại mật khẩu">
+          <small
+            *ngIf="(confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)) || (password.value !== confirmPassword.value && (confirmPassword.dirty || confirmPassword.touched) && (password.dirty || password.touched))"
+            class="text-danger">
+            <div *ngIf="confirmPassword.errors?.['required']">Không được bỏ trống trường này</div>
+            <div *ngIf="registerForm.errors?.['notMatch']"> Mật khẩu không khớp</div>
+          </small>
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" id="agreement" [value]="false" formControlName="agreement">
+          <label class="form-check-label" for="agreement">
+            Tôi đồng ý với <a>Điều khoản và điều kiện sử dụng</a>
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid || !agreement.value"
+          class="btn btn-primary d-block w-100 rounded-pill py-2">Đăng ký</button>
+      </form>
+      <p class="text-center mt-4 mb-0">
+        Đã có tài khoản?
+        <a routerLink="/login" class="text-decoration-none">Đăng nhập</a>
+      </p>
+    </div>
+  </div>
+</div>

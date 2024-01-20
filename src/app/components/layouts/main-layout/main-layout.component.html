@@ -1,0 +1,341 @@
+<nav class="navbar navbar-expand-lg p-2 sticky-top bg-transparent" [ngClass]="{'shadow bg-body-tertiary': isScrolled}">
+    <div class="container d-flex">
+        <button class="navbar-toggler d-flex d-lg-none p-2" data-bs-toggle="offcanvas" data-bs-target="#navbar"
+            aria-controls="bdNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- <button class="navbar-toggler d-flex d-lg-none p-2 order-3" data-bs-toggle="offcanvas" data-bs-target="#navbar"
+            aria-controls="bdNavbar">
+            <span class="bi bi-search" style="font-size: 30px;"></span>
+        </button> -->
+        <a routerLink="/" class="d-block align-items-center text-decoration-none m-auto">
+            <i class="bi bi-bootstrap-fill fs-3"></i>
+        </a>
+        <div class="offcanvas-lg offcanvas-start flex-grow-1" tabindex="-1" id="navbar"
+            aria-labelledby="NavbarOffcanvas" data-bs-scroll="true">
+            <div class="offcanvas-header px-4 pb-0">
+                <h5 class="offcanvas-title">Bootstrap</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#navbar"></button>
+            </div>
+            <div class="offcanvas-body p-4 pt-0 p-lg-0">
+                <hr class="d-lg-none text-white-50">
+                <ul class="navbar-nav flex-row flex-wrap">
+                    <li class="nav-item col-6 col-lg-auto">
+                        <a routerLink="/home" routerLinkActive="active text-primary"
+                            class=" nav-link py-2 px-0 px-lg-2">Trang chủ</a>
+                    </li>
+                    <li class="nav-item col-6 col-lg-auto">
+                        <a routerLink="/search" routerLinkActive="active text-primary"
+                            class="nav-link py-2 px-0 px-lg-2">Tra cứu sách</a>
+                    </li>
+                </ul>
+
+
+                <hr class="d-lg-none">
+
+                <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+
+                    <li class="nav-item col-6 col-lg-auto d-flex align-items-center">
+                        <span *ngIf="switchThemeFunction != undefined">
+                            <input type="checkbox" class="btn-check" id="btn-check-theme" autocomplete="off"
+                                (click)="toggleTheme()">
+                            <label
+                                class="btn btn-outline-secondary border-light-subtle text-body bg-body-secondary rounded-circle py-2"
+                                for="btn-check-theme">
+                                <span *ngIf="isDark"><i class="bi bi-moon-fill"></i></span>
+                                <span *ngIf="!isDark"><i class="bi bi-sun-fill"></i></span>
+                                <span class="d-lg-none ms-2" id="bd-theme-text">Giao diện:&nbsp;
+                                    <span *ngIf="isDark">Tối</span>
+                                    <span *ngIf="!isDark">Sáng</span>
+                                </span>
+                            </label>
+                        </span>
+                    </li>
+
+                    <div class="me-lg-2"></div>
+
+                    <li class="nav-item dropdown col-6 col-lg-auto d-flex align-items-center">
+                        <button type="button"
+                            class="btn btn-outline-secondary border-light-subtle text-body bg-body-secondary py-2 rounded-circle position-relative"
+                            aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static"
+                            aria-label="Message">
+                            <span class="bi bi-bell-fill" style="line-height: 0;"></span>
+                            <span class="d-lg-none ms-2">Thông báo</span>
+                            <span
+                                class="position-absolute top-0 mt-1 ms-2 p-2 translate-middle bg-danger border border-light rounded-circle">
+                                <span class="visually-hidden">New alerts</span>
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-start dropdown-menu-lg-end" style="min-width: 200px;"
+                            aria-labelledby="Message">
+                            <li>
+                                <button type="button" class="dropdown-item d-flex align-items-center" routerLink="/aaa">
+                                    Dolor sit amet.
+                                    <span class="bi bi-emoji-kiss ms-auto fs-3"></span>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" class="dropdown-item d-flex align-items-center" routerLink="/bbb">
+                                    Lorem, ipsum.
+                                    <span class="bi bi-emoji-smile ms-auto fs-3"></span>
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- <li class="nav-item py-1 col-12 col-lg-auto">
+                        <div class="vr d-none d-lg-flex mx-lg-2 h-100"></div>
+                        <hr class="d-lg-none">
+                    </li> -->
+                    <div class="me-lg-2"></div>
+
+                    <li class="nav-item dropdown d-flex align-items-center">
+                        <button
+                            class="btn btn-outline-secondary border-light-subtle text-body bg-body-secondary p-2 rounded-circle d-flex align-items-center fs-4 overflow-hidden"
+                            type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static"
+                            aria-label="User">
+                            <span *ngIf="!isLoggedIn" class="bi bi-person-circle" style="line-height: 0;"></span>
+                            <img *ngIf="isLoggedIn" src="{{(user | async)?.avatarImage}}" alt="Avatar" class="img-fluid"
+                                style="max-width: 41px; max-height: 41px; object-fit: cover; object-position: center; aspect-ratio: 1/1; margin: -8px;" />
+                            <!-- <span class="d-lg-none ms-2" id="user-panel">Tài khoản</span> -->
+                        </button>
+
+
+                        <ul class="dropdown-menu dropdown-menu-start dropdown-menu-lg-end" style="min-width: 200px;"
+                            aria-labelledby="user-panel">
+                            <ng-container *ngTemplateOutlet="isLoggedIn ? loggedInPanel : guestPanel">
+                            </ng-container>
+
+                            <ng-template #guestPanel>
+                                <div class="card border-0 rounded-0 m-3" routerLink="/login" style="cursor: pointer;">
+                                    <div class="d-flex gap-3 align-items-center bg-body-secondary rounded-1 p-2">
+                                        <span class="bi bi-person-circle"
+                                            style="font-size: 50px; line-height: 0;"></span>
+                                        <h5 class="card-title m-0 text-wrapped">Khách</h5>
+                                    </div>
+                                    <div class="card-body p-0 text-center">
+                                        <p class="card-text">Đăng nhập hoặc đăng ký để sử dụng các tính năng đặc biệt
+                                        </p>
+                                    </div>
+                                </div>
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center"
+                                        routerLink="/login">
+                                        Đăng nhập
+                                        <span class="bi bi-box-arrow-in-right ms-auto fs-4"></span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center"
+                                        routerLink="/register">
+                                        Đăng ký
+                                        <span class="bi bi-person-add ms-auto fs-4"></span>
+                                    </button>
+                                </li>
+                            </ng-template>
+
+                            <ng-template #loggedInPanel>
+                                <div class="card border-0 rounded-0 m-3" routerLink="/profile" style="cursor: pointer;">
+                                    <div class="d-flex gap-3 align-items-center bg-body-secondary rounded-1 p-2">
+                                        <img class="img-fluid rounded-circle"
+                                            style="max-width: 50px; max-height: 50px; object-fit: cover; object-position: center; aspect-ratio: 1/1;"
+                                            src="{{(user | async)?.avatarImage}}" alt="Avatar">
+                                        <h5 class="card-title m-0 text-wrapped">{{((user | async)?.lastName || '') + ' '
+                                            +
+                                            (user | async)?.firstName}}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center"
+                                        routerLink="/profile">
+                                        Thông tin
+                                        <span class="bi bi-person-fill-gear ms-auto me-1 fs-4"></span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center"
+                                        (click)="logOut()">
+                                        Đăng xuất
+                                        <span class="bi bi-box-arrow-right ms-auto fs-4"></span>
+                                    </button>
+                                </li>
+                            </ng-template>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<router-outlet></router-outlet>
+
+<footer class="bg-body-secondary pt-5 pb-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-4 mb-4">
+                <img src="https://placehold.it/250x80" alt="" class="img-fluid">
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, rem.</p>
+            </div>
+            <div class="col-12 col-lg-4 mb-4">
+                <div class="row mb-2">
+                    <div class="col-auto col-lg-2 me-lg-2">
+                        <button class="btn btn-outline-secondary rounded-circle py-2"><i
+                                class="bi bi-geo-alt-fill"></i></button>
+                    </div>
+                    <div class="col m-auto">
+                        <small>170 An Dương Vương, Tp. Quy Nhơn</small>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-auto col-lg-2 me-lg-2">
+                        <button class="btn btn-outline-secondary rounded-circle py-2"><i
+                                class="bi bi-telephone-fill"></i></button>
+                    </div>
+                    <div class="col m-auto">
+                        <small>(84-256) 3846156</small>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-auto col-lg-2 me-lg-2">
+                        <button class="btn btn-outline-secondary rounded-circle py-2"><i
+                                class="bi bi-envelope-fill"></i></button>
+                    </div>
+                    <div class="col m-auto">
+                        <small>dqn&#64;moet.edu.vn</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 mb-4">
+                <div class="row">
+                    <h4>Giới thiệu</h4>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor cum voluptatibus
+                        laboriosam provident
+                        voluptatum doloribus!</p>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <a href="http://qnu.edu.vn/" class="btn btn-outline-secondary rounded-3 py-2">
+                            <i class="bi bi-globe"></i></a>
+                    </div>
+                    <div class="col-2">
+                        <a href="https://www.facebook.com/dhquynhon" class="btn btn-outline-secondary rounded-3 py-2">
+                            <i class="bi bi-facebook"></i></a>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- <footer class="bg-dark bg-opacity-10 pt-5 pb-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-sm-12">
+                <img src="http://placehold.it/250x80" alt="" class="img-fluid">
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium, rem.</p>
+                <ul class="list-unstyled">
+                    <li>
+                        <i class="icon-earphones"></i> Call Us:
+                        <a href="tel:344-755-111">344-755-111</a>
+                    </li>
+                    <li>
+                        <i class="icon-envelope-open"></i>
+                        <a href="mailto:support@aazztech.com">support@aazztech.com</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-sm-4">
+                <h4 class="mb-4">Popular Topics</h4>
+                <ul class="d-flex flex-column gap-2 list-unstyled">
+                    <li>
+                        <a href="#">Wordpress</a>
+                    </li>
+                    <li>
+                        <a href="#">Plugins</a>
+                    </li>
+                    <li>
+                        <a href="#">Joomla Template</a>
+                    </li>
+                    <li>
+                        <a href="#">Admin Template</a>
+                    </li>
+                    <li>
+                        <a href="#">HTML Template</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3 col-sm-4">
+                <h4 class="mb-4">Our Company</h4>
+                <ul class="d-flex flex-column gap-2 list-unstyled">
+                    <li>
+                        <a href="#">About Us</a>
+                    </li>
+                    <li>
+                        <a href="#">How It Works</a>
+                    </li>
+                    <li>
+                        <a href="#">Affiliates</a>
+                    </li>
+                    <li>
+                        <a href="#">Testimonials</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact Us</a>
+                    </li>
+                    <li>
+                        <a href="#">Plan &amp; Pricing</a>
+                    </li>
+                    <li>
+                        <a href="#">Blog</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3 col-sm-4">
+                <h4 class="mb-4">Help Support</h4>
+                <ul class="d-flex flex-column gap-2 list-unstyled">
+                    <li>
+                        <a href="#">Support Forum</a>
+                    </li>
+                    <li>
+                        <a href="#">Terms &amp; Conditions</a>
+                    </li>
+                    <li>
+                        <a href="#">Support Policy</a>
+                    </li>
+                    <li>
+                        <a href="#">Refund Policy</a>
+                    </li>
+                    <li>
+                        <a href="#">FAQs</a>
+                    </li>
+                    <li>
+                        <a href="#">Buyers Faq</a>
+                    </li>
+                    <li>
+                        <a href="#">Sellers Faq</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <hr>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright-text">
+                    <p>© 2018
+                        <a href="#">Library</a>. All rights reserved. Created by
+                        <a href="#">Tan</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer> -->
