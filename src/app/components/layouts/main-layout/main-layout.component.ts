@@ -19,6 +19,8 @@ export class MainLayoutComponent
   protected isScrolled: boolean = false;
   protected user: Observable<User | undefined> = of(undefined);
 
+  protected searchInput: string = '';
+
   get isLoggedIn () { return this.authGuardService.isLoggedIn };
 
   constructor(private dataService: DataService, private authGuardService: AuthGuardService, private router: Router)
@@ -30,6 +32,8 @@ export class MainLayoutComponent
 
     this.user = authGuardService.userData;
   }
+
+  
 
   toggleTheme ()
   {
@@ -62,4 +66,13 @@ export class MainLayoutComponent
     if (navigateAfterLogOut)
       navigateAfterLogOut(this.router);
   }
+
+  search (input: string)
+  {
+    if (!input || input === '')
+      return;
+
+    this.router.navigate(['/search'], { queryParams: { title: input } });
+  }
+
 }
