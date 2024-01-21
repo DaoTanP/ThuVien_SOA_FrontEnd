@@ -102,13 +102,13 @@ export class HttpService
     return this.httpClient.get(this.USER_API_URL + '/favorite', { headers: this.requestHeaders });
   }
 
-  public linkLibraryCard ({ CardNumber, Password, UserId }: any): Observable<any>
+  public linkLibraryCard ({ cardId, cardPassword }: any): Observable<any>
   {
-    return this.httpClient.post(this.USER_API_URL + '/libraryCard', { CardNumber, Password, UserId });
+    return this.httpClient.post(this.USER_API_URL + '/libraryCard', { cardId, cardPassword }, { headers: this.requestHeaders });
   }
 
-  public borrow ({ cardNumber, bookId, borrowDate, returnDate }: any): Observable<any>
+  public borrow ({ cardId, bookId, borrowDate, returnDate }: any): Observable<any>
   {
-    return this.httpClient.post(this.BOOK_API_URL + '/borrow', { id: null, cardNumber, bookId, borrowDate, returnDate });
+    return this.httpClient.post(this.BOOK_API_URL + '/borrow', { id: null, cardId, bookId, borrowDate, returnDate });
   }
 }

@@ -58,6 +58,13 @@
         <div class="tab-pane py-3 active position-relative" id="info" role="tabpanel" aria-labelledby="info-tab">
           <div class="d-flex flex-column gap-3">
             <div class="row justify-content-center align-items-center g-2">
+              <div class="col-3">Mã thẻ thư viện</div>
+              <div class="col">{{userInfo.cardId || 'chưa liên kết'}}
+                <button class="ms-3 btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                  data-bs-target="#libraryCardModal">{{userInfo.cardId ? 'Thay đổi' : 'Liên kết'}}</button>
+              </div>
+            </div>
+            <div class="row justify-content-center align-items-center g-2">
               <div class="col-3">Tên</div>
               <div class="col">{{userInfo.displayName}}</div>
             </div>
@@ -170,7 +177,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Hủy</button>
         <button type="submit" form="editInfoForm" class="btn btn-primary" data-bs-dismiss="modal">Lưu thay đổi</button>
       </div>
     </div>
@@ -190,6 +197,35 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Hủy</button>
         <button class="btn btn-danger" (click)="delete()" data-bs-dismiss="modal">Xác nhận</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="libraryCardModal" tabindex="-1" aria-labelledby="libraryCardModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="libraryCardModalLabel">Liên kết thẻ thư viện</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-warning">Sau khi liên kết thẻ thư viện mới, bạn sẽ không truy cập được thông tin hoặc mượn sách
+          bằng thẻ cũ.</p>
+        <div class="col mb-3 w-100">
+          <label for="cardId" class="form-label">Mã thẻ</label>
+          <input type="text" required id="cardId" class="form-control" [ngModel] #cardId aria-describedby="helpCardId">
+        </div>
+        <div class="col mb-3 w-100">
+          <label for="cardPassword" class="form-label">Mật khẩu thẻ</label>
+          <input type="text" required id="cardPassword" class="form-control" [ngModel] #cardPassword
+            aria-describedby="helpCardPassword">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" (click)="linkLibraryCard(cardId.value, cardPassword.value)" class="btn btn-primary"
+          data-bs-dismiss="modal">Xác nhận</button>
       </div>
     </div>
   </div>

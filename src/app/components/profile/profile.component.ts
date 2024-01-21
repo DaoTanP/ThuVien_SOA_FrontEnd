@@ -242,6 +242,49 @@ export class ProfileComponent
     });
   }
 
+  linkLibraryCard (cardId: string, cardPassword: string)
+  {
+    if (!cardId || !cardPassword)
+      return;
+
+    const data = {
+      cardId: cardId,
+      cardPassword: cardPassword,
+    };
+
+    this.waiting = true;
+
+    this.httpService.linkLibraryCard(data).subscribe({
+      next: res =>
+      {
+        this.waiting = false;
+        this.userInfo.cardId = cardId;
+        this.alertService.appendAlert('Liên kết thẻ thư viện thành công', AlertType.success, 5, 'alert-container');
+      }, error: err =>
+      {
+        this.waiting = false;
+        switch (err.status)
+        {
+          case 400:
+            this.alertService.appendAlert('Thẻ đã được liên kết với một tài khoản', AlertType.danger, 5, 'alert-container');
+            break;
+
+          case 404:
+            this.alertService.appendAlert('Không tìm thấy thẻ thư viện, vui lòng kiểm tra lại thông tin', AlertType.danger, 5, 'alert-container');
+            break;
+
+          case 0:
+            this.alertService.appendAlert('Không thể kết nối với máy chủ, vui lòng thử lại sau', AlertType.danger, 5, 'alert-container');
+            break;
+
+          default:
+            this.alertService.appendAlert('Đã xảy ra lỗi, vui lòng thử lại sau', AlertType.danger, 5, 'alert-container');
+            break;
+        }
+      }
+    });
+  }
+
   logOut (router: Router)
   {
     router.navigate(['home']);
