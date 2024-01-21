@@ -33,7 +33,7 @@ export class MainLayoutComponent
     this.user = authGuardService.userData;
   }
 
-  
+
 
   toggleTheme ()
   {

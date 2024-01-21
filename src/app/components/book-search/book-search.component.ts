@@ -26,7 +26,7 @@ export class BookSearchComponent
   protected itemsPerPage: number = 0;
 
   protected searchForm: FormGroup = new FormGroup({
-    bookTitle: new FormControl(null),
+    title: new FormControl(null),
     categories: new FormArray([]),
     author: new FormControl(null),
     publisher: new FormControl(null),
@@ -91,7 +91,7 @@ export class BookSearchComponent
   {
     this.bookListAsync.subscribe(books =>
     {
-      const data = books.map((book: any) => new Book(book.id, book.title, book.category.name, book.image, book.author.name, book.publisher.name, book.publishDate, book.overview, book.numberOfPages));
+      const data = books.map((book: Book) => book);
       this.bookList = this.sortData(data, sortBy, sortAscending);
 
       this.totalItems = books.length;
@@ -122,7 +122,7 @@ export class BookSearchComponent
     // console.log(query.categories);
 
     const queryParams = {
-      title: query.bookTitle,
+      title: query.title,
       category: query.categories,
       author: query.author,
       publisher: query.publisher,
@@ -155,7 +155,7 @@ export class BookSearchComponent
           return bookList.sort((a, b) => b.title.localeCompare(a.title));
         break;
 
-      case 'publishedDate':
+      case 'publishDate':
         if (ascending)
           return bookList.sort((a, b) =>
           {

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, map, of } from 'rxjs';
-import { convertToJSDateString } from 'src/app/models/Utils';
 import { Book } from 'src/app/models/book';
 import { SearchModel } from 'src/app/models/search-model';
 import { AlertService, AlertType } from 'src/app/services/alert.service';
@@ -26,7 +25,7 @@ export class BookDetailsComponent
   protected fromAuthor: Observable<Book[]> = of([]);
   protected fromPublisher: Observable<Book[]> = of([]);
 
-  protected borrowDate: FormControl = new FormControl(convertToJSDateString(new Date()), [Validators.required]);
+  protected borrowDate: FormControl = new FormControl(new Date().toLocaleDateString(), [Validators.required]);
   protected returnDate: FormControl = new FormControl(null, [Validators.required]);
 
   protected borrowForm: FormGroup = new FormGroup({
@@ -62,7 +61,7 @@ export class BookDetailsComponent
             }
           });
 
-        categorySearch.category = [this.book.category];
+        categorySearch.category = this.book.category;
         authorSearch.author = this.book.author;
         publisherSearch.publisher = this.book.publisher;
 
@@ -93,7 +92,7 @@ export class BookDetailsComponent
     const formData = this.borrowForm.value;
     const data = {
       cardNumber: this.cardNumber,
-      bookId: this.book.id,
+      bookId: this.book._id,
       borrowDate: formData.borrowDate,
       returnDate: formData.returnDate
     }

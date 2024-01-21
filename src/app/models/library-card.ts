@@ -1,10 +1,10 @@
 export class LibraryCard
 {
     constructor(
-        public id: string = "",
+        public _id: string = "",
         public password: string = "",
-        public issueDate: string | null = null,
-        public expirationDate: string | null = null,
+        public issueDate: Date | null = null,
+        public expirationDate: Date | null = null,
     ) { }
 
 }

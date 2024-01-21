@@ -8,14 +8,17 @@ export class AlertService
 
   constructor() { }
 
-  public appendAlert = (message: string, type: AlertType = AlertType.danger, autoHideInSecond: number = 0, containerId: string = "") =>
+  public appendAlert = (message: string, type: AlertType = AlertType.danger, autoHideInSecond: number = 0, containerId: string = "", sticky: boolean = false) =>
   {
     let alertPlaceholder = document.getElementById(containerId);
     if (alertPlaceholder == null)
       alertPlaceholder = document.body;
 
     const alert = document.createElement('div');
-    alert.className = `alert alert-${type.valueOf()} alert-dismissible mb-2`;
+    alert.className = `alert alert-${type.valueOf()} alert-dismissible mb-2 rounded-0 border-0`;
+    if (sticky)
+      alert.classList.add('position-fixed top-0 w-100');
+    alert.style.zIndex = "2000";
     alert.role = 'alert';
     alert.innerHTML = [
       `   <div>${message}</div>`,

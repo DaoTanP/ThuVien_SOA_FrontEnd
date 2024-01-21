@@ -6,18 +6,49 @@
   position: relative;
 }
 
-.card-shadow {
-  content: '';
-  position: absolute;
-  width: 80%;
-  height: 100%;
-  z-index: 0;
-  opacity: 0.75;
-  background: linear-gradient(270deg, rgba(11, 11, 11, 0) 0%, #0B0B0B 100%, #0B0B0B 100%);
-}
 
 .sub-img {
   object-fit: cover;
   object-position: center;
   background-position: center;
+}
+
+.card-shadow {
+  --shadow-angle: 270deg;
+  --opacity: 1;
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: var(--opacity);
+  background: linear-gradient(var(--shadow-angle), rgba(11, 11, 11, 0) 0%, #0B0B0B 100%, #0B0B0B 100%);
+}
+
+.card-shadow-top {
+  --shadow-angle: 0;
+}
+
+.card-shadow-bottom {
+  --shadow-angle: 180deg;
+}
+
+.card-shadow-right {
+  --shadow-angle: 90deg;
+}
+
+.card-shadow-o25 {
+  --opacity: 0.25;
+}
+
+.card-shadow-o50 {
+  --opacity: 0.5;
+}
+
+.card-shadow-o75 {
+  --opacity: 0.75;
+}
+
+.card-shadow-o100 {
+  --opacity: 1;
 }

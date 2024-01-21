@@ -32,7 +32,7 @@
                         <select class="form-select" aria-label="Sort" #sortInput formControlName="sortBy"
                             (change)="sort(sortInput.value, sortAscending.checked)">
                             <option value="title">Tiêu đề</option>
-                            <option value="publishedDate">Ngày xuất bản</option>
+                            <option value="publishDate">Ngày xuất bản</option>
                             <option value="popularity">Nổi bật</option>
                         </select>
                         <div class="input-group-text">
@@ -66,7 +66,7 @@
                 <div style="object-fit: cover; object-position: center; overflow: hidden;">
                     <div class="bi bi-search text-center" style="font-size: 5rem;"></div>
                 </div>
-                <h3 class="text-center text-break">Không tìm thấy kết quả cho "{{searchModel.bookTitle}}"</h3>
+                <h3 class="text-center text-break">Không tìm thấy kết quả cho "{{searchModel.title}}"</h3>
             </div>
         </ng-template>
 
@@ -74,7 +74,7 @@
             <div class="container px-2 rounded-2 z-0">
                 <form [formGroup]="searchForm" class="mb-3" (ngSubmit)="search()">
                     <div class="mb-3">
-                        <input formControlName="bookTitle" type="text" class="form-control border-2"
+                        <input formControlName="title" type="text" class="form-control border-2"
                             placeholder="Nhập tên sách cần tìm">
                     </div>
                     <div class="mb-3">
@@ -100,12 +100,12 @@
                                     aria-labelledby="filter1-header">
                                     <div class="accordion-body d-flex flex-column gap-1">
                                         <div *ngFor="let c of categories | async; index as i" class="form-check">
-                                            <input class="form-check-input" formArrayName="categories" [value]="c.name"
+                                            <input class="form-check-input" formArrayName="categories" [value]="c"
                                                 (change)="onCategoryCheckboxChange($event)" type="checkbox"
-                                                [checked]="(this.searchForm.get('categories')?.value.indexOf(c.name)) > -1"
+                                                [checked]="(this.searchForm.get('categories')?.value.indexOf(c)) > -1"
                                                 id="c-{{i}}">
                                             <label class="form-check-label" for="c-{{i}}">
-                                                {{c.name}}
+                                                {{c}}
                                             </label>
                                         </div>
                                     </div>

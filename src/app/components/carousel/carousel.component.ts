@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class CarouselComponent
 {
-  @Input() items: any[] = [
+  @Input() items: any[] | null = [
     { title: 'Đắc Nhân Tâm', description: 'Đắc Nhân Tâm', image: 'https://cdn2.unrealengine.com/egs-fall-guys-season-4-desktop-1248x702-59af3c5b2e50.jpg?h=720&quality=medium&resize=1&w=1280' },
     { title: 'Cô Bé Lọ Lem', description: 'Cô Bé Lọ Lem', image: 'https://cdn2.unrealengine.com/egs-fall-guys-season-4-desktop-1248x702-59af3c5b2e50.jpg?h=720&quality=medium&resize=1&w=1280' },
     { title: 'Angela Merkel - Thế Giới Của Vị Nữ Thủ Tướng', description: 'Angela Merkel - Thế Giới Của Vị Nữ Thủ Tướng', image: 'https://cdn2.unrealengine.com/egs-fall-guys-season-4-desktop-1248x702-59af3c5b2e50.jpg?h=720&quality=medium&resize=1&w=1280' },

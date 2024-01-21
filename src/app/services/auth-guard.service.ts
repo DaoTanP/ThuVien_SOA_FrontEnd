@@ -17,14 +17,18 @@ import { Observable, of } from 'rxjs';
 export class AuthGuardService implements CanActivate
 {
   private user: Observable<User | undefined> = of(undefined);
-  constructor(private dataService: DataService, private httpService: HttpService, private router: Router)
+  constructor(
+    private httpService: HttpService,
+    private dataService: DataService,
+    private router: Router,
+  )
   {
     this.initData();
   }
 
   get isLoggedIn (): boolean
   {
-    return (this.dataService.getSession('userId') !== null);
+    return (this.dataService.getSession('access_token') !== null);
   }
 
   get userData (): Observable<any>
@@ -40,24 +44,24 @@ export class AuthGuardService implements CanActivate
 
   initData ()
   {
-    const userId = this.dataService.getSession('userId');
+    const accessToken = this.dataService.getSession('access_token');
 
-    if (userId)
-      this.user = this.httpService.getUserData(userId);
+    if (accessToken)
+      this.user = this.httpService.getUserInfo();
   }
 
-  login (userId: string): void
+  login (accessToken: string): void
   {
-    if (!userId)
+    if (!accessToken)
       return;
 
-    this.dataService.setSession('userId', userId);
-    this.user = this.httpService.getUserData(userId);
+    this.dataService.setSession('access_token', accessToken);
+    this.user = this.httpService.getUserInfo();
   }
 
   logOut (): void
   {
-    this.dataService.removeSession('userId');
+    this.dataService.removeSession('access_token');
     this.user = of(undefined);
   }
 

@@ -3,15 +3,16 @@
 
 <ng-template #horizontalCard>
     <div class="card p-0 rounded-0 border-0 bg-body text-body link w-100 d-grid horizontal" title="{{book.title}}"
-        routerLink="{{href || '/book/' + book.id}}">
+        routerLink="{{href || '/book/' + this.book._id}}">
         <div class="book-cover-container placeholder-glow">
-            <img src="{{book.image}}" class="img-fluid placeholder bg-secondary" alt="book cover" loading="lazy"
+            <img src="{{book.images}}" class="img-fluid placeholder bg-secondary" alt="book cover" loading="lazy"
                 title="{{book.title}}" (load)="imageLoad($event)" (error)="imageError($event)">
         </div>
         <div class="card-body pe-2">
             <h6 class="card-title text-wrapped max-line-2" title="{{book.title}}">{{book.title}}</h6>
             <!-- <p class="card-text text-muted text-wrapped" title="{{book.author}}">{{book.author}}</p> -->
-            <p class="card-text"><small class="text-muted text-wrapped" title="{{book.author}}">{{book.author}}</small>
+            <p class="card-text"><small class="text-muted text-wrapped"
+                    title="{{book.author.join(', ')}}">{{book.author.join(', ')}}</small>
             </p>
         </div>
     </div>
@@ -20,15 +21,16 @@
 <ng-template #verticalCard>
     <!-- style="width: 12rem;" -->
     <div class="card position-relative p-0 border-0 bg-body text-body link w-sm-100 w-auto"
-        routerLink="{{href || '/book/' + book.id}}" routerLinkActive="active">
+        routerLink="{{href || '/book/' + this.book._id}}" routerLinkActive="active">
         <div class="rounded-2 book-cover-container placeholder-glow" title="{{book.title}}">
-            <img src="{{book.image}}" title="{{book.title}}"
+            <img src="{{book.images[0]}}" title="{{book.title}}"
                 class="card-img-top img-fluid rounded-2 placeholder bg-secondary" alt="book cover" loading="lazy"
                 (load)="imageLoad($event)" (error)="imageError($event)">
         </div>
         <div class="card-body p-0">
             <p class="card-text text-wrapped max-line-2 my-1" title="{{book.title}}">{{book.title}}</p>
-            <p class="small text-muted card-text text-wrapped my-1" title="{{book.author}}">{{book.author}}</p>
+            <p class="small text-muted card-text text-wrapped my-1" title="{{book.author.join(', ')}}">
+                {{book.author.join(', ')}}</p>
         </div>
 
         <!-- <div class="card-action position-absolute top-0 end-0 m-1 z-3">

@@ -1,43 +1,63 @@
 <div class="container rounded-3 mb-5 mt-4">
-  <div class="row">
-      <div class="col col-lg-8 p-0 pe-lg-2">
-          <ngx-slick-carousel class="carousel rounded-3 overflow-hidden" id="main-carousel"
-              #mainCarousel="slick-carousel" [config]="mainConfig" (afterChange)="beforeChange($event)">
-              <div ngxSlickItem *ngFor="let item of items" class="slide">
-                  <div class="card border-0 rounded-0">
-                      <img attr.data-lazy="{{item.image}}" class="card-img rounded-0" alt="{{item.title}}">
-                      <div class="card-shadow"></div>
+    <div class="row">
+        <div class="col col-lg-8 p-0 pe-lg-2">
+            <ngx-slick-carousel class="carousel rounded-3 overflow-hidden" id="main-carousel"
+                #mainCarousel="slick-carousel" [config]="mainConfig" (afterChange)="beforeChange($event)">
+                <div ngxSlickItem *ngFor="let item of items" class="slide">
+                    <!-- <div class="card border-0 rounded-0">
+                        <img attr.data-lazy="{{item.image}}" class="card-img rounded-0" alt="{{item.title}}">
+                        <div class="card-shadow"></div>
 
-                      <div class="card-img-overlay p-4 d-lg-flex flex-column justify-content-end w-50 d-none">
-                          <h5 class="card-title display-6 fw-bold text-light text-wrapped max-line-2">{{item.title}}
-                          </h5>
-                          <p class="card-text my-3 text-light text-wrapped max-line-3">{{item.description}}</p>
-                          <a href="#" class="btn btn-light fw-medium me-auto">Tìm hiểu thêm &nbsp; <span
-                                  class="bi bi-chevron-right"></span></a>
-                      </div>
-                      <div class="card-img-overlay p-4 d-flex flex-column justify-content-end w-75 d-lg-none">
-                          <h5 class="card-title lead fw-bold text-light text-wrapped max-line-2">{{item.title}}</h5>
-                          <a href="#" class="btn-link text-light fw-medium me-auto">Xem thêm&nbsp;<span
-                                  class="bi bi-chevron-right"></span></a>
-                      </div>
-                  </div>
-              </div>
-          </ngx-slick-carousel>
-      </div>
-      <div class="col-4 p-0 ps-lg-2 d-none d-lg-flex flex-column gap-2">
-          <div *ngFor="let item of items; index as i;" class="card flex-row border-0 flex-grow-1"
-              style=" cursor: pointer; flex-basis: 0;" (click)="mainCarousel.slickGoTo(i);"
-              [class.bg-body-secondary]="active == i">
-              <div class="col-md-3">
-                  <img src="{{item.image}}" class="rounded-end-0 m-0 rounded-start img-fluid h-100 sub-img"
-                      alt="{{item.title}}">
-              </div>
-              <div class="col-md">
-                  <div class="card-body h-100 d-flex align-items-center">
-                      <h6 class="card-title text-wrapped m-0">{{item.title}}</h6>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
+                        <div class="card-img-overlay p-4 d-lg-flex flex-column justify-content-end w-50 d-none">
+                            <h5 class="card-title display-6 fw-bold text-light text-wrapped max-line-2">{{item.title}}
+                            </h5>
+                            <p class="card-text my-3 text-light text-wrapped max-line-3">{{item.description}}</p>
+                            <a href="#" class="btn btn-light fw-medium me-auto">Tìm hiểu thêm &nbsp; <span
+                                    class="bi bi-chevron-right"></span></a>
+                        </div>
+                        <div class="card-img-overlay p-4 d-flex flex-column justify-content-end w-75 d-lg-none">
+                            <h5 class="card-title lead fw-bold text-light text-wrapped max-line-2">{{item.title}}</h5>
+                            <a href="#" class="btn-link text-light fw-medium me-auto">Xem thêm&nbsp;<span
+                                    class="bi bi-chevron-right"></span></a>
+                        </div>
+                    </div> -->
+
+                    <div class="card border-0 rounded-0 bg-body-tertiary">
+                        <div class="row g-5">
+                            <div class="col-md-5">
+                                <img src="{{item.image}}" class="rounded-3 w-100 object-fit-cover m-3 shadow-lg"
+                                    alt="..." style="object-position: center; height: 23.5rem;">
+                            </div>
+                            <div class="col-md-7">
+                                <div class="card-body">
+                                    <h1 class="card-title text-wrapped max-line-4 pb-2" title="{{item.title}}">
+                                        {{item.title}}</h1>
+                                    <p class="card-text text-wrapped max-line-2" title="{{item.description}}">
+                                        {{item.description}}</p>
+                                    <a href="#" class="btn btn-outline-primary fw-medium me-auto">Tìm hiểu thêm &nbsp;
+                                        <span class="bi bi-chevron-right"></span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ngx-slick-carousel>
+        </div>
+        <div class="col-4 p-0 ps-lg-2 d-none d-lg-flex flex-column gap-2">
+            <div *ngFor="let item of items; index as i;" class="card flex-row border-0 flex-grow-1"
+                style="max-height: 4.7rem; cursor: pointer; flex-basis: 0;" (click)="mainCarousel.slickGoTo(i);"
+                [class.bg-body-secondary]="active == i">
+                <div class="col-md-3">
+                    <img src="{{item.image}}"
+                        class="rounded-end-0 m-0 rounded-start img-fluid h-100 sub-img object-fit-cover w-100"
+                        alt="{{item.title}}">
+                </div>
+                <div class="col-md">
+                    <div class="card-body h-100 d-flex align-items-center">
+                        <h6 class="card-title text-wrapped m-0">{{item.title}}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

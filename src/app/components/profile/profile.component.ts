@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { map } from 'rxjs';
-import { convertToJSDateString } from 'src/app/models/Utils';
 import { Book } from 'src/app/models/book';
 import { User } from 'src/app/models/user';
 import { AlertService, AlertType } from 'src/app/services/alert.service';
@@ -18,11 +16,10 @@ import { HttpService } from 'src/app/services/http.service';
 export class ProfileComponent
 {
   protected waiting: boolean = false;
-  protected user: User = new User();
-  protected userToEdit: any = {};
+  protected userInfo: User = new User();
+  protected favorites: Book[] = [];
 
-  protected firstName: FormControl = new FormControl(null, [Validators.required]);
-  protected lastName: FormControl = new FormControl(null);
+  protected displayName: FormControl = new FormControl(null, [Validators.required]);
   protected dateOfBirth: FormControl = new FormControl(null);
   protected gender: FormControl = new FormControl(null);
   protected phoneNumber: FormControl = new FormControl(null);
@@ -30,8 +27,7 @@ export class ProfileComponent
   protected address: FormControl = new FormControl(null);
 
   public editInfoForm: FormGroup = new FormGroup({
-    firstName: this.firstName,
-    lastName: this.lastName,
+    displayName: this.displayName,
     dateOfBirth: this.dateOfBirth,
     gender: this.gender,
     phoneNumber: this.phoneNumber,
@@ -39,9 +35,15 @@ export class ProfileComponent
     address: this.address,
   });
 
-  constructor(private dataService: DataService, private authGuard: AuthGuardService, private httpService: HttpService, private alertService: AlertService, private router: Router)
+  constructor(
+    private httpService: HttpService,
+    private dataService: DataService,
+    private alertService: AlertService,
+    private authGuardService: AuthGuardService,
+    private router: Router,
+  )
   {
-    if (!authGuard.isLoggedIn)
+    if (!authGuardService.isLoggedIn)
       router.navigate(['/login']);
 
     this.setData();
@@ -52,40 +54,64 @@ export class ProfileComponent
   setData ()
   {
     this.waiting = true;
-    this.authGuard.userData.subscribe(data =>
-    {
-      this.user.value = data;
-      this.userToEdit.username = this.user.username;
-      this.userToEdit.password = '';
+    this.authGuardService.userData.subscribe({
+      next: res =>
+      {
+        this.userInfo.value = res;
+        this.editInfoForm.setValue({
+          displayName: this.userInfo.displayName,
+          dateOfBirth: this.userInfo.dob?.toISOString().split('T')[0],
+          gender: this.userInfo.gender,
+          phoneNumber: this.userInfo.phoneNumber,
+          email: this.userInfo.email,
+          address: this.userInfo.address,
+        });
+      }, error: err =>
+      {
+        switch (err.status)
+        {
+          case 0:
+            this.alertService.appendAlert('Không thể kết nối với máy chủ, vui lòng thử lại sau', AlertType.danger, 5, 'alert-container');
+            break;
 
-      const { id, username, password, avatarImage, cardNumber, cardPassword, libraryCard, avatar, ...userInfo } = data;
-      this.editInfoForm.setValue({ ...userInfo });
-      this.dateOfBirth.setValue(data.dateOfBirth);
-
-      this.waiting = false;
+          default:
+            this.alertService.appendAlert('Đã xảy ra lỗi, vui lòng thử lại sau', AlertType.danger, 5, 'alert-container');
+            break;
+        }
+      }
     });
+    this.getFavorite();
+    this.waiting = false;
+  }
+
+  getFavorite ()
+  {
+    this.httpService.getFavorite().subscribe(books => this.favorites = books);
   }
 
   submitChange ()
   {
-    this.userToEdit = { ...this.userToEdit, ...this.editInfoForm.value };
-  }
-
-  change ()
-  {
     this.waiting = true;
 
-    this.httpService.editUser(this.userToEdit).subscribe({
+    // Remove all null attributes from the form
+    const formValue = this.editInfoForm.value;
+    const filteredValue = Object.keys(formValue)
+      .filter((k) => formValue[k] != null)
+      .reduce((a, k) => ({ ...a, [k]: formValue[k] }), {});
+
+    this.httpService.editUserInfo(filteredValue).subscribe({
       next: res =>
       {
-        this.waiting = false;
-        this.setData();
-        this.userToEdit.password = '';
+        this.httpService.getUserInfo().subscribe((userInfo) =>
+        {
+          this.userInfo.value = userInfo;
+          this.waiting = false;
+        });
+
         this.alertService.appendAlert('Cập nhật thông tin thành công', AlertType.success, 5, 'alert-container');
       }, error: err =>
       {
         this.waiting = false;
-        this.userToEdit.password = '';
         switch (err.status)
         {
           case 400:
@@ -108,17 +134,16 @@ export class ProfileComponent
   delete ()
   {
     this.waiting = true;
-    this.httpService.deleteUser(this.userToEdit).subscribe({
+    this.httpService.deleteUser().subscribe({
       next: res =>
       {
         this.waiting = false;
-        this.authGuard.logOut();
+        this.authGuardService.logOut();
         this.logOut(this.router);
         this.alertService.appendAlert('Xóa tài khoản thành công', AlertType.success, 5, 'alert-container');
       }, error: err =>
       {
         this.waiting = false;
-        this.userToEdit.password = '';
         switch (err.status)
         {
           case 404:
@@ -151,19 +176,13 @@ export class ProfileComponent
       if (!e.target || !e.target.result || 'string' === typeof e.target.result)
         return;
 
-      const arr = Array.from(new Uint8Array(e.target.result));
+      const fd = new FormData();
+      fd.append('file', file);
 
-      const uploadData = {
-        username: this.user.username,
-        imageBytes: arr,
-      }
-
-      this.httpService.uploadAvatar(uploadData).subscribe({
+      this.httpService.uploadAvatar(fd).subscribe({
         next: res =>
         {
           this.waiting = false;
-          this.user.avatarImage = res;
-          // this.authGuard.userData = this.user;
           this.alertService.appendAlert('Đổi ảnh đại diện thành công, tải lại trang để xem thay đổi', AlertType.success, 5, 'alert-container');
         },
         error: err =>
@@ -186,67 +205,22 @@ export class ProfileComponent
     r.readAsArrayBuffer(file);
   }
 
-  changePassword (oldPassword: string, newPassword: string)
+  changePassword (newPassword: string)
   {
-    if (!oldPassword || !newPassword || oldPassword === newPassword)
+    if (!newPassword)
       return;
 
     const data = {
-      username: this.user.username,
-      oldPassword: oldPassword,
-      newPassword: newPassword,
+      password: newPassword,
     };
 
     this.waiting = true;
 
-    this.httpService.changeUserPassword(data).subscribe({
+    this.httpService.editUserInfo(data).subscribe({
       next: res =>
       {
         this.waiting = false;
         this.alertService.appendAlert('Thay đổi mật khẩu thành công', AlertType.success, 5, 'alert-container');
-      }, error: err =>
-      {
-        this.waiting = false;
-        switch (err.status)
-        {
-          case 400:
-            this.alertService.appendAlert('Thông tin không hợp lệ, vui lòng kiểm tra lại', AlertType.danger, 5, 'alert-container');
-            break;
-
-          case 0:
-            this.alertService.appendAlert('Không thể kết nối với máy chủ, vui lòng thử lại sau', AlertType.danger, 5, 'alert-container');
-            break;
-
-          default:
-            this.alertService.appendAlert('Đã xảy ra lỗi, vui lòng thử lại sau', AlertType.danger, 5, 'alert-container');
-            break;
-        }
-      }
-    });
-  }
-
-  linkLibraryCard (cardNumber: string, cardPassword: string)
-  {
-    if (!cardNumber || !cardPassword)
-      return;
-
-    const data = {
-      UserId: this.user.id,
-      CardNumber: cardNumber,
-      Password: cardPassword,
-    };
-
-    console.log(data);
-
-
-    this.waiting = true;
-
-    this.httpService.linkLibraryCard(data).subscribe({
-      next: res =>
-      {
-        this.waiting = false;
-        this.user.libraryCard = res;
-        this.alertService.appendAlert('Liên kết thẻ thư viện thành công', AlertType.success, 5, 'alert-container');
       }, error: err =>
       {
         this.waiting = false;

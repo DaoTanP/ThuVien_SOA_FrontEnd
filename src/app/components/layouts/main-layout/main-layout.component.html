@@ -29,7 +29,7 @@
                         <a routerLink="/search" routerLinkActive="active text-primary"
                             class="nav-link py-2 px-0 px-lg-2">Tra cứu sách</a>
                     </li>
-                    
+
                 </ul>
                 <form class="flex-grow-1 mx-0 mx-lg-4">
                     <div class="input-group">
@@ -107,7 +107,7 @@
                             type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static"
                             aria-label="User">
                             <span *ngIf="!isLoggedIn" class="bi bi-person-circle" style="line-height: 0;"></span>
-                            <img *ngIf="isLoggedIn" src="{{(user | async)?.avatarImage}}" alt="Avatar" class="img-fluid"
+                            <img *ngIf="isLoggedIn" src="{{(user | async)?.avatar}}" alt="Avatar" class="img-fluid"
                                 style="max-width: 41px; max-height: 41px; object-fit: cover; object-position: center; aspect-ratio: 1/1; margin: -8px;" />
                             <!-- <span class="d-lg-none ms-2" id="user-panel">Tài khoản</span> -->
                         </button>
@@ -151,10 +151,8 @@
                                     <div class="d-flex gap-3 align-items-center bg-body-secondary rounded-1 p-2">
                                         <img class="img-fluid rounded-circle"
                                             style="max-width: 50px; max-height: 50px; object-fit: cover; object-position: center; aspect-ratio: 1/1;"
-                                            src="{{(user | async)?.avatarImage}}" alt="Avatar">
-                                        <h5 class="card-title m-0 text-wrapped">{{((user | async)?.lastName || '') + ' '
-                                            +
-                                            (user | async)?.firstName}}
+                                            src="{{(user | async)?.avatar}}" alt="Avatar">
+                                        <h5 class="card-title m-0 text-wrapped">{{ (user | async)?.displayName}}
                                         </h5>
                                     </div>
                                 </div>

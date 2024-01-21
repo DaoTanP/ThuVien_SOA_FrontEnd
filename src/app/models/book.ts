@@ -1,19 +1,20 @@
 export class Book
 {
     constructor(
-        public id: string = '',
+        public _id: string = '',
         public title: string = '',
-        public category: string = '',
-        public image: string = '',
-        public author: string = '',
-        public publisher: string = '',
-        public publishDate: string | null = null,
+        public category: string[] = [],
+        public author: string[] = [],
+        public publisher: string[] = [],
+        public publishDate: string = '',
         public overview: string = '',
         public numberOfPages: number = 0,
+        public images: string[] = [],
+        public price: number = 0
+
     )
     {
-        if (!image || image === '')
-            // this.image = 'https://dummyimage.com/400x600/dddddd/aaa&text=No+image';
-            this.image = 'http://localhost:8080/images/book/' + image;
+        if (!images)
+            images = ['https://dummyimage.com/400x600/dddddd/aaa&text=No+image'];
     }
 }

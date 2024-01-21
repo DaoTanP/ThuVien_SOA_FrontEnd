@@ -5,6 +5,7 @@ import { Observable, map, of } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { AlertService, AlertType } from 'src/app/services/alert.service';
 import { AuthGuardService } from 'src/app/services/auth-guard.service';
+import { DataService } from 'src/app/services/data.service';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
@@ -17,7 +18,15 @@ export class RegisterComponent
   protected waiting: boolean = false;
 
   protected displayName: FormControl = new FormControl(null, [Validators.required, Validators.minLength(5)]);
-  protected username: FormControl = new FormControl(null, { updateOn: 'blur', validators: [Validators.required, Validators.minLength(5)], asyncValidators: this.usernameExistValidator() });
+  protected username: FormControl = new FormControl(null,
+    {
+      updateOn: 'blur',
+      validators: [
+        Validators.required,
+        Validators.minLength(5)
+      ],
+      // asyncValidators: this.usernameValidator()
+    });
   protected password: FormControl = new FormControl(null, [Validators.required, Validators.minLength(8)]);
   protected confirmPassword: FormControl = new FormControl(null, [Validators.required]);
   protected agreement: FormControl = new FormControl(false);
@@ -30,7 +39,13 @@ export class RegisterComponent
     agreement: this.agreement
   }, [this.formGroupMatchValidator('confirmPassword', 'password')]);
 
-  constructor(private httpService: HttpService, private authGuardService: AuthGuardService, private router: Router, private alertService: AlertService)
+  constructor(
+    private httpService: HttpService,
+    private dataService: DataService,
+    private alertService: AlertService,
+    private authGuardService: AuthGuardService,
+    private router: Router,
+  )
   {
     if (authGuardService.isLoggedIn)
       router.navigate(['home']);
@@ -54,7 +69,7 @@ export class RegisterComponent
     }
   }
 
-  public usernameExistValidator (): AsyncValidatorFn
+  public usernameValidator (): AsyncValidatorFn
   {
     return (control: AbstractControl<any, any>): Observable<ValidationErrors | null> =>
     {
@@ -63,11 +78,11 @@ export class RegisterComponent
         return of(null);
       }
 
-      return this.httpService.usernameExists(control.value).pipe(
+      return this.httpService.usernameAvailable(control.value).pipe(
         map(res =>
         {
           // console.log(res);
-          return res ? { exists: true } : null;
+          return (res.status !== 200) ? { exists: true } : null;
         })
       );
     }
@@ -76,19 +91,31 @@ export class RegisterComponent
   public register ()
   {
     this.alertService.clearAlert();
-    this.waiting = true;
-    const displayName = this.registerForm.value.displayName || '';
-    const username = this.registerForm.value.username || '';
-    const password = this.registerForm.value.password || '';
+    if (!this.registerForm.valid)
+    {
+      this.alertService.appendAlert('Thông tin không hợp lệ, vui lòng kiểm tra lại', AlertType.danger, 0, 'form-wrapper');
+      return;
+    }
+
+    const displayName = this.registerForm.value.displayName;
+    const username = this.registerForm.value.username;
+    const password = this.registerForm.value.password;
+
     const user = new User();
-    user.firstName = displayName;
+    user.displayName = displayName;
     user.username = username;
     user.password = password;
+
+    this.waiting = true;
+
     this.httpService.register(user).subscribe({
-      next: (res) =>
+      next: async res =>
       {
         this.waiting = false;
-        this.authGuardService.login(res.id);
+        this.authGuardService.login(res.accessToken);
+        this.alertService.appendAlert('Đăng ký thành công, chuyển hướng về trang chủ',
+          AlertType.success, 3, 'form-wrapper');
+        await new Promise(f => setTimeout(f, 3000));
         this.router.navigate(['home']);
       }, error: (err) =>
       {
