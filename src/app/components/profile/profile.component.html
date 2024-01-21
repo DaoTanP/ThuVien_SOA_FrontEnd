@@ -62,6 +62,8 @@
               <div class="col">{{userInfo.cardId || 'chưa liên kết'}}
                 <button class="ms-3 btn btn-sm btn-outline-primary" data-bs-toggle="modal"
                   data-bs-target="#libraryCardModal">{{userInfo.cardId ? 'Thay đổi' : 'Liên kết'}}</button>
+                <button *ngIf="userInfo.cardId != null" class="ms-1 btn btn-sm btn-outline-danger"
+                  (click)="unlinkLibraryCard()">Hủy liên kết</button>
               </div>
             </div>
             <div class="row justify-content-center align-items-center g-2">

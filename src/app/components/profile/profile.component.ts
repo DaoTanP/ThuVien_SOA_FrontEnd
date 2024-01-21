@@ -285,6 +285,33 @@ export class ProfileComponent
     });
   }
 
+  unlinkLibraryCard ()
+  {
+    this.waiting = true;
+
+    this.httpService.unlinkLibraryCard().subscribe({
+      next: res =>
+      {
+        this.waiting = false;
+        this.userInfo.cardId = null;
+        this.alertService.appendAlert('Hủy liên kết thẻ thư viện thành công', AlertType.success, 5, 'alert-container');
+      }, error: err =>
+      {
+        this.waiting = false;
+        switch (err.status)
+        {
+          case 0:
+            this.alertService.appendAlert('Không thể kết nối với máy chủ, vui lòng thử lại sau', AlertType.danger, 5, 'alert-container');
+            break;
+
+          default:
+            this.alertService.appendAlert('Đã xảy ra lỗi, vui lòng thử lại sau', AlertType.danger, 5, 'alert-container');
+            break;
+        }
+      }
+    });
+  }
+
   logOut (router: Router)
   {
     router.navigate(['home']);

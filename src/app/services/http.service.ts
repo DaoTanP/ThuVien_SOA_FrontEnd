@@ -107,6 +107,11 @@ export class HttpService
     return this.httpClient.post(this.USER_API_URL + '/libraryCard', { cardId, cardPassword }, { headers: this.requestHeaders });
   }
 
+  public unlinkLibraryCard (): Observable<any>
+  {
+    return this.httpClient.delete(this.USER_API_URL + '/libraryCard', { headers: this.requestHeaders });
+  }
+
   public borrow ({ cardId, bookId, borrowDate, returnDate }: any): Observable<any>
   {
     return this.httpClient.post(this.BOOK_API_URL + '/borrow', { id: null, cardId, bookId, borrowDate, returnDate });
