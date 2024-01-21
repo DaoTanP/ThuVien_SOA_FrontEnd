@@ -1,115 +1,115 @@
 <div id="alert-container" class="container"> <!--class="position-fixed z-3 w-100 px-5" style="top: 4rem;" -->
-    <style>
-      .alert-container>* {
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-      }
-    </style>
-  </div>
-  
-  <div class="container mb-5 mt-3">
-    <div class="row">
-      <div class="col-md-4 mb-5 mb-md-0">
-        <div class="img-container mx-auto mx-xl-5">
-          <ngx-slick-carousel class="carousel" #slickModal="slick-carousel"
-            [config]="{slidesToShow: 1, slidesToScroll: 1, dots: true}">
-            <div ngxSlickItem *ngFor="let image of book.images" class="slide mx-1 pt-2">
-              <img class="img-fluid w-100 rounded-2 book-cover-shadow" src="{{image}}">
-            </div>
-          </ngx-slick-carousel>
+  <style>
+    .alert-container>* {
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
+  </style>
+</div>
+
+<div class="container mb-5 mt-3">
+  <div class="row">
+    <div class="col-md-4 mb-5 mb-md-0">
+      <div class="img-container mx-auto mx-xl-5">
+        <ngx-slick-carousel class="carousel rounded-2" #slickModal="slick-carousel"
+          [config]="{slidesToShow: 1, slidesToScroll: 1, dots: true}">
+          <div ngxSlickItem *ngFor="let image of book.images" class="slide">
+            <img src="{{image}}" class="img-fluid w-100 rounded-2">
+          </div>
+        </ngx-slick-carousel>
+      </div>
+    </div>
+    <div class="col-md">
+      <h2 class="mb-3">{{book.title}}</h2>
+      <div class="mb-4"></div>
+      <div class="row">
+        <div class="col-md-4 col">
+          <p>Tác giả:</p>
+          <p>Nhà xuất bản:</p>
+          <p>Ngày xuất bản:</p>
+          <p>Số trang:</p>
+        </div>
+        <div class="col">
+          <p>{{book.author.join(', ')}}</p>
+          <p>{{book.publisher}}</p>
+          <p>{{publishDate || 'Không rõ'}}</p>
+          <p>{{book.numberOfPages}}</p>
         </div>
       </div>
-      <div class="col-md">
-        <h2 class="mb-3">{{book.title}}</h2>
-        <div class="mb-4"></div>
-        <div class="row">
-          <div class="col-md-4 col">
-            <p>Tác giả:</p>
-            <p>Nhà xuất bản:</p>
-            <p>Ngày xuất bản:</p>
-            <p>Số trang:</p>
-          </div>
-          <div class="col">
-            <p>{{book.author}}</p>
-            <p>{{book.publisher}}</p>
-            <p>{{publishDate || 'Không rõ'}}</p>
-            <p>{{book.numberOfPages}}</p>
-          </div>
-        </div>
-        <div class="mt-3 row">
-          <div class="col-12 col-md-auto">
-            <button *ngIf="!isFavorite" [disabled]="waitingForFavoriteAction"
-              class="btn text-primary fw-medium w-100 mt-3 mt-md-0" (click)="addFavorite()">
-              <span *ngIf="waitingForFavoriteAction" class="spinner-border spinner-border-sm text-primary" role="status"
-                aria-hidden="true"></span>
-              <span *ngIf="!waitingForFavoriteAction" class="bi bi-bookmark-plus"></span>
-              Thêm vào yêu thích
-            </button>
-  
-            <button *ngIf="isFavorite" [disabled]="waitingForFavoriteAction"
-              class="btn text-primary fw-medium w-100 mt-3 mt-md-0" (click)="removeFavorite()">
-              <span *ngIf="waitingForFavoriteAction" class="spinner-border spinner-border-sm text-primary" role="status"
-                aria-hidden="true"></span>
-              <span *ngIf="!waitingForFavoriteAction" class="bi bi-bookmark-check-fill"></span>
-              Xóa khỏi yêu thích
-            </button>
-          </div>
+      <div class="mt-3 row">
+        <div class="col-12 col-md-auto">
+          <button *ngIf="!isFavorite" [disabled]="waitingForFavoriteAction"
+            class="btn text-primary fw-medium w-100 mt-3 mt-md-0" (click)="addFavorite()">
+            <span *ngIf="waitingForFavoriteAction" class="spinner-border spinner-border-sm text-primary" role="status"
+              aria-hidden="true"></span>
+            <span *ngIf="!waitingForFavoriteAction" class="bi bi-bookmark-plus"></span>
+            Thêm vào yêu thích
+          </button>
+
+          <button *ngIf="isFavorite" [disabled]="waitingForFavoriteAction"
+            class="btn text-primary fw-medium w-100 mt-3 mt-md-0" (click)="removeFavorite()">
+            <span *ngIf="waitingForFavoriteAction" class="spinner-border spinner-border-sm text-primary" role="status"
+              aria-hidden="true"></span>
+            <span *ngIf="!waitingForFavoriteAction" class="bi bi-bookmark-check-fill"></span>
+            Xóa khỏi yêu thích
+          </button>
         </div>
       </div>
     </div>
   </div>
-  <div class="container p-0 mb-5">
-    <div class="row mb-4">
-      <h4 class="mb-0">Giới thiệu</h4>
-    </div>
-    <p class="p-2" style="text-align: justify;">{{book.overview}}</p>
+</div>
+<div class="container p-0 mb-5">
+  <div class="row mb-4">
+    <h4 class="mb-0">Giới thiệu</h4>
   </div>
-  <app-book-scroll-list title="Cùng tác giả" [dataAsync]="fromAuthor"></app-book-scroll-list>
+  <p class="p-2" style="text-align: justify;">{{book.overview}}</p>
+</div>
+<app-book-scroll-list title="Cùng tác giả" [dataAsync]="fromAuthor"></app-book-scroll-list>
 <app-book-scroll-list title="Có liên quan" [dataAsync]="inCategory"></app-book-scroll-list>
 <app-book-scroll-list [title]="'Từ nhà xuất bản '+book.publisher" [dataAsync]="fromPublisher"></app-book-scroll-list>
-  <div class="container p-0 mb-5">
-    <div class="d-grid gap-2 col-6 mx-auto">
-      <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalWrite">
-        <i class="bi bi-highlighter"></i> Viết đánh giá
-      </button>
-      <div class="modal fade" id="modalWrite" tabindex="-1" aria-labelledby="modalWrite" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="modalWrite">Viết đánh giá</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <label for="lastName" class="mb-1">Nội dung</label>
-              <textarea class="form-control" aria-label="With textarea"></textarea>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-              <button type="button" class="btn btn-primary">Gửi đánh giá</button>
-            </div>
+<div class="container p-0 mb-5">
+  <div class="d-grid gap-2 col-6 mx-auto">
+    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalWrite">
+      <i class="bi bi-highlighter"></i> Viết đánh giá
+    </button>
+    <div class="modal fade" id="modalWrite" tabindex="-1" aria-labelledby="modalWrite" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="modalWrite">Viết đánh giá</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <label for="lastName" class="mb-1">Nội dung</label>
+            <textarea class="form-control" aria-label="With textarea"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-primary">Gửi đánh giá</button>
           </div>
         </div>
       </div>
     </div>
-    <h4 class="mb-3 mt-4">Đánh giá</h4>
-    <div class="col mb-4">
-      <div class="row">
-        <div class="user col">
-          <i class="icon-size bi bi-person-fill"></i>
-          <span class="">Zinh Zẻ Zách</span>
-        </div>
+  </div>
+  <h4 class="mb-3 mt-4">Đánh giá</h4>
+  <div class="col mb-4">
+    <div class="row">
+      <div class="user col">
+        <i class="icon-size bi bi-person-fill"></i>
+        <span class="">Zinh Zẻ Zách</span>
       </div>
-      <div class="mt-2 form-group">
-        <div class="rating">
-          <span class="bi bi-star-fill"></span>
-          <span class="bi bi-star-fill"></span>
-          <span class="bi bi-star-fill"></span>
-          <span class="bi bi-star-fill"></span>
-          <span class="bi bi-star"></span>
-        </div>
+    </div>
+    <div class="mt-2 form-group">
+      <div class="rating">
+        <span class="bi bi-star-fill"></span>
+        <span class="bi bi-star-fill"></span>
+        <span class="bi bi-star-fill"></span>
+        <span class="bi bi-star-fill"></span>
+        <span class="bi bi-star"></span>
       </div>
-      <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum ad fugiat molestiae enim animi eaque
-        deleniti maiores et iste ex aspernatur mollitia saepe, eos, illo soluta expedita. Impedit, modi nulla.</span>
-      <!-- <div class="mt-2 row">
+    </div>
+    <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum ad fugiat molestiae enim animi eaque
+      deleniti maiores et iste ex aspernatur mollitia saepe, eos, illo soluta expedita. Impedit, modi nulla.</span>
+    <!-- <div class="mt-2 row">
               <div class="col-auto">
                 <i class="bi-hand-thumbs-down"></i>
               </div>
@@ -120,24 +120,24 @@
                 <span class="">Trả lời</span>
               </div>
             </div> -->
+  </div>
+  <div class="col mb-4">
+    <div class="row">
+      <div class="user col">
+        <i class="icon-size bi bi-person-fill"></i>
+        <span class="">Híu Giấu Tên</span>
+      </div>
     </div>
-    <div class="col mb-4">
-      <div class="row">
-        <div class="user col">
-          <i class="icon-size bi bi-person-fill"></i>
-          <span class="">Híu Giấu Tên</span>
-        </div>
+    <div class="mt-2 form-group">
+      <div class="rating">
+        <span class="bi bi-star-fill"></span>
+        <span class="bi bi-star-fill"></span>
+        <span class="bi bi-star-fill"></span>
+        <span class="bi bi-star-fill"></span>
+        <span class="bi bi-star-fill"></span>
       </div>
-      <div class="mt-2 form-group">
-        <div class="rating">
-          <span class="bi bi-star-fill"></span>
-          <span class="bi bi-star-fill"></span>
-          <span class="bi bi-star-fill"></span>
-          <span class="bi bi-star-fill"></span>
-          <span class="bi bi-star-fill"></span>
-        </div>
-        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum ad fugiat molestiae enim animi eaque
-          deleniti maiores et iste ex aspernatur mollitia saepe, eos, illo soluta expedita. Impedit, modi nulla.</span>
-      </div>
+      <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum ad fugiat molestiae enim animi eaque
+        deleniti maiores et iste ex aspernatur mollitia saepe, eos, illo soluta expedita. Impedit, modi nulla.</span>
     </div>
   </div>
+</div>

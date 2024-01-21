@@ -34,7 +34,8 @@
                                         {{item.title}}</h1>
                                     <p class="card-text text-wrapped max-line-2" title="{{item.description}}">
                                         {{item.description}}</p>
-                                    <a href="#" class="btn btn-outline-primary fw-medium me-auto">Tìm hiểu thêm &nbsp;
+                                    <a routerLink="{{item.href || '#'}}"
+                                        class="btn btn-outline-primary fw-medium me-auto">Tìm hiểu thêm &nbsp;
                                         <span class="bi bi-chevron-right"></span></a>
                                 </div>
                             </div>

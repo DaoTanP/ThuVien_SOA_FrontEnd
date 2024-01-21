@@ -28,6 +28,7 @@ export class HomeComponent
           title: item.title,
           description: item.author.join(', '),
           image: item.images[0],
+          href: '/book/' + item._id,
         }
       });
     });
