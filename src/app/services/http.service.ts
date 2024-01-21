@@ -11,6 +11,7 @@ export class HttpService
 {
   private BOOK_API_URL = 'http://localhost:3000/book';
   private USER_API_URL = 'http://localhost:3000/user';
+  private BORROW_API_URL = 'http://localhost:3000/borrow';
   private requestHeaders = {
     'Authorization': 'Bearer ' + this.dataService.getSession('access_token'),
   }
@@ -112,8 +113,8 @@ export class HttpService
     return this.httpClient.delete(this.USER_API_URL + '/libraryCard', { headers: this.requestHeaders });
   }
 
-  public borrow ({ cardId, bookId, borrowDate, returnDate }: any): Observable<any>
+  public borrow ({ bookId, borrowDate, returnDate }: any): Observable<any>
   {
-    return this.httpClient.post(this.BOOK_API_URL + '/borrow', { id: null, cardId, bookId, borrowDate, returnDate });
+    return this.httpClient.post(this.BORROW_API_URL, { bookId, borrowDate, returnDate }, { headers: this.requestHeaders });
   }
 }
