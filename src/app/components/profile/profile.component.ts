@@ -18,6 +18,7 @@ export class ProfileComponent
   protected waiting: boolean = false;
   protected userInfo: User = new User();
   protected favorites: Book[] = [];
+  protected history: any[] = [];
 
   protected displayName: FormControl = new FormControl(null, [Validators.required]);
   protected dateOfBirth: FormControl = new FormControl(null);
@@ -81,12 +82,24 @@ export class ProfileComponent
       }
     });
     this.getFavorite();
+    this.getBorrowHistory();
     this.waiting = false;
   }
 
   getFavorite ()
   {
     this.httpService.getFavorite().subscribe(books => this.favorites = books);
+  }
+
+  getBorrowHistory ()
+  {
+    this.httpService.borrowHistory().subscribe(histories => this.history = histories.map((h: any) => {
+      return {
+        bookId: h.bookId,
+        borrowDate: new Date(h.borrowDate).toLocaleDateString(),
+        returnDate: new Date(h.returnDate).toLocaleDateString()
+      };
+    }));
   }
 
   submitChange ()

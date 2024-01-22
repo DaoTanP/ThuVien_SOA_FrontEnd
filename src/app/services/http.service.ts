@@ -38,24 +38,34 @@ export class HttpService
     console.log('requesting user info');
 
     if (id != '')
-      return this.httpClient.get(this.USER_API_URL, { headers: this.requestHeaders });
+      return this.httpClient.get(this.USER_API_URL, { headers: {
+    'Authorization': 'Bearer ' + this.dataService.getSession('access_token'),
+  } });
 
-    return this.httpClient.get(this.USER_API_URL + '/' + id, { headers: this.requestHeaders });
+    return this.httpClient.get(this.USER_API_URL + '/' + id, { headers: {
+    'Authorization': 'Bearer ' + this.dataService.getSession('access_token'),
+  } });
   }
 
   public editUserInfo (userInfoChanges: any): Observable<any>
   {
-    return this.httpClient.patch(this.USER_API_URL, userInfoChanges, { headers: this.requestHeaders });
+    return this.httpClient.patch(this.USER_API_URL, userInfoChanges, { headers: {
+    'Authorization': 'Bearer ' + this.dataService.getSession('access_token'),
+  } });
   }
 
   public deleteUser (): Observable<any>
   {
-    return this.httpClient.delete(this.USER_API_URL, { headers: this.requestHeaders, observe: 'response', responseType: "text" });
+    return this.httpClient.delete(this.USER_API_URL, { headers: {
+    'Authorization': 'Bearer ' + this.dataService.getSession('access_token'),
+  }, observe: 'response', responseType: "text" });
   }
 
   public uploadAvatar (image: any): Observable<any>
   {
-    return this.httpClient.patch(this.USER_API_URL, image, { headers: this.requestHeaders });
+    return this.httpClient.patch(this.USER_API_URL, image, { headers: {
+    'Authorization': 'Bearer ' + this.dataService.getSession('access_token'),
+  } });
   }
 
   public getBooks (id: string = ''): Observable<any>
@@ -88,33 +98,54 @@ export class HttpService
 
   public addFavorite (bookId: any): Observable<any>
   {
-    return this.httpClient.post(this.USER_API_URL + '/addFavorite', { bookId }, { headers: this.requestHeaders });
+    return this.httpClient.post(this.USER_API_URL + '/addFavorite', { bookId }, { headers: {
+    'Authorization': 'Bearer ' + this.dataService.getSession('access_token'),
+  } });
   }
   public removeFavorite (bookId: any): Observable<any>
   {
-    return this.httpClient.post(this.USER_API_URL + '/removeFavorite', { bookId }, { headers: this.requestHeaders });
+    return this.httpClient.post(this.USER_API_URL + '/removeFavorite', { bookId }, { headers: {
+    'Authorization': 'Bearer ' + this.dataService.getSession('access_token'),
+  } });
   }
   public isFavorite (bookId: any): Observable<any>
   {
-    return this.httpClient.post(this.USER_API_URL + '/isFavorite', { bookId }, { headers: this.requestHeaders });
+    return this.httpClient.post(this.USER_API_URL + '/isFavorite', { bookId }, { headers: {
+    'Authorization': 'Bearer ' + this.dataService.getSession('access_token'),
+  } });
   }
   public getFavorite (): Observable<any>
   {
-    return this.httpClient.get(this.USER_API_URL + '/favorite', { headers: this.requestHeaders });
+    return this.httpClient.get(this.USER_API_URL + '/favorite', { headers: {
+    'Authorization': 'Bearer ' + this.dataService.getSession('access_token'),
+  } });
   }
 
   public linkLibraryCard ({ cardId, cardPassword }: any): Observable<any>
   {
-    return this.httpClient.post(this.USER_API_URL + '/libraryCard', { cardId, cardPassword }, { headers: this.requestHeaders });
+    return this.httpClient.post(this.USER_API_URL + '/libraryCard', { cardId, cardPassword }, { headers: {
+    'Authorization': 'Bearer ' + this.dataService.getSession('access_token'),
+  } });
   }
 
   public unlinkLibraryCard (): Observable<any>
   {
-    return this.httpClient.delete(this.USER_API_URL + '/libraryCard', { headers: this.requestHeaders });
+    return this.httpClient.delete(this.USER_API_URL + '/libraryCard', { headers: {
+    'Authorization': 'Bearer ' + this.dataService.getSession('access_token'),
+  } });
   }
 
   public borrow ({ bookId, borrowDate, returnDate }: any): Observable<any>
   {
-    return this.httpClient.post(this.BORROW_API_URL, { bookId, borrowDate, returnDate }, { headers: this.requestHeaders });
+    return this.httpClient.post(this.BORROW_API_URL, { bookId, borrowDate, returnDate }, { headers: {
+    'Authorization': 'Bearer ' + this.dataService.getSession('access_token'),
+  } });
+  }
+
+  public borrowHistory (): Observable<any>
+  {
+    return this.httpClient.get(this.BORROW_API_URL + '/history', { headers: {
+    'Authorization': 'Bearer ' + this.dataService.getSession('access_token'),
+  } });
   }
 }
