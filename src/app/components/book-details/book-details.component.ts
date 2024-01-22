@@ -48,6 +48,8 @@ export class BookDetailsComponent
     private alertService: AlertService
   )
   {
+    // force route reload whenever params change
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.waitingForFavoriteAction = true;
     this.waitingForCartAction = true;
     this.route.paramMap.subscribe(params =>
@@ -56,9 +58,6 @@ export class BookDetailsComponent
       const categorySearch = new SearchModel();
       const authorSearch = new SearchModel();
       const publisherSearch = new SearchModel();
-      this.inCategory;
-      this.fromAuthor;
-      this.fromPublisher;
 
       this.httpService.getBooks(id).subscribe(book =>
       {
@@ -70,7 +69,8 @@ export class BookDetailsComponent
             next: res =>
             {
               this.httpService.isFavorite(this.book._id).subscribe(fav => this.isFavorite = fav);
-              // this.httpService.isInCart(this.book._id).subscribe(res => this.isInCart = res);
+              this.userId = res._id;
+              this.cardNumber = res.cardId;
             }
           });
 
@@ -81,9 +81,9 @@ export class BookDetailsComponent
         authorSearch.author = this.book.author;
         publisherSearch.publisher = this.book.publisher;
 
-        this.inCategory = this.httpService.searchBooks(categorySearch).pipe(map((books: Book[]) => books.map((book: any) => new Book(book.id, book.title, book.category.name, book.image, book.author.name, book.publisher.name, book.publishDate, book.overview, book.numberOfPages))));
-        this.fromAuthor = this.httpService.searchBooks(authorSearch).pipe(map((books: Book[]) => books.map((book: any) => new Book(book.id, book.title, book.category.name, book.image, book.author.name, book.publisher.name, book.publishDate, book.overview, book.numberOfPages))));
-        this.fromPublisher = this.httpService.searchBooks(publisherSearch).pipe(map((books: Book[]) => books.map((book: any) => new Book(book.id, book.title, book.category.name, book.image, book.author.name, book.publisher.name, book.publishDate, book.overview, book.numberOfPages))));
+        this.inCategory = this.httpService.searchBooks(categorySearch);
+        this.fromAuthor = this.httpService.searchBooks(authorSearch);
+        this.fromPublisher = this.httpService.searchBooks(publisherSearch);
       });
     });
   }
@@ -131,15 +131,6 @@ export class BookDetailsComponent
       }
     });
   }
-  addCart ()
-  {
-    
-  }
-
-  removeCart ()
-  {
-    
-  }
 
   borrowEvent ()
   {
@@ -162,8 +153,8 @@ export class BookDetailsComponent
     const data = {
       cardNumber: this.cardNumber,
       bookId: this.book._id,
-      borrowDate: convertJSToCSDate(formData.borrowDate),
-      returnDate: convertJSToCSDate(formData.returnDate)
+      borrowDate: formData.borrowDate,
+      returnDate: formData.returnDate
     }
     console.log(data);
     

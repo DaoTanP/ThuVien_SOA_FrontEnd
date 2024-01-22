@@ -77,3 +77,62 @@
 <app-book-scroll-list title="Cùng tác giả" [dataAsync]="fromAuthor"></app-book-scroll-list>
 <app-book-scroll-list title="Có liên quan" [dataAsync]="inCategory"></app-book-scroll-list>
 <app-book-scroll-list [title]="'Từ nhà xuất bản '+book.publisher" [dataAsync]="fromPublisher"></app-book-scroll-list>
+
+<div class="modal fade" id="borrowModal" tabindex="-1" aria-labelledby="borrowModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="borrowModalLabel">Đăng ký mượn sách</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form [formGroup]="borrowForm" (ngSubmit)="borrow()" id="borrowForm">
+                  <div class="col mb-3 w-100">
+                      <label for="cardNumber" class="form-label">Số thẻ</label>
+                      <p id="cardNumber">{{cardNumber}}</p>
+                      <div *ngIf="!cardNumber">
+                          <small>Ngày trả là bắt buộc</small>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-6 mb-3 w-100">
+                          <label for="borrowDate" class="form-label">Ngày mượn</label>
+                          <input type="date" id="borrowDate" class="form-control"
+                              [class.is-invalid]="borrowDate.invalid && (borrowDate.dirty || borrowDate.touched)"
+                              formControlName="borrowDate">
+                          <div *ngIf="borrowDate.invalid && (borrowDate.dirty || borrowDate.touched)"
+                              class="text-danger">
+                              <div *ngIf="borrowDate.errors?.['required']">
+                                  <small>Ngày mượn là bắt buộc</small>
+                              </div>
+                          </div>
+                          <div *ngIf="borrowDate.invalid && (borrowDate.dirty || borrowDate.touched)"
+                              class="text-danger">
+                              <div *ngIf="borrowDate.errors?.['required']">
+                                  <small>Ngày mượn là bắt buộc</small>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-6 mb-3 w-100">
+                          <label for="returnDate" class="form-label">Ngày trả</label>
+                          <input type="date" id="returnDate" class="form-control"
+                              [class.is-invalid]="returnDate.invalid && (returnDate.dirty || returnDate.touched)"
+                              formControlName="returnDate">
+                          <div *ngIf="returnDate.invalid && (returnDate.dirty || returnDate.touched)"
+                              class="text-danger">
+                              <div *ngIf="returnDate.errors?.['required']">
+                                  <small>Ngày trả là bắt buộc</small>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Hủy</button>
+              <button type="submit" form="borrowForm" class="btn btn-primary" data-bs-toggle="modal"
+                  [disabled]="borrowForm.invalid" data-bs-target="#infoModal2">Đăng ký mượn</button>
+          </div>
+      </div>
+  </div>
+</div>
